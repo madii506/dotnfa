@@ -130,7 +130,8 @@ async function build(req, b) {
     const R = ag.rules;
     if (!R.allow.includes(from.symbol) || !R.allow.includes(to.symbol)) throw new L.Fail('robots', `robots.txt says no: ${ag.name} may only touch ${R.allow.join(', ')}.`);
     if (ag.tradesToday >= R.daily) throw new L.Fail('robots', `robots.txt says no: ${R.daily} trades a day, and ${ag.tradesToday} are done.`);
-    const have = held(from.symbol).amount - (from.symbol === 'SOL' ? 0.003 : 0);
+    const topup = from.symbol === 'SOL' ? Math.max(0, Math.min(5, Number(b.topup) || 0)) : 0; // optional: send SOL in first, same transaction
+    const have = held(from.symbol).amount + topup - (from.symbol === 'SOL' ? 0.003 : 0);
     const v = amt(b.amount, Math.max(0, have));
     const px = await L.prices([from.mint]); const usd = px[from.mint] ? v * px[from.mint].usd : null;
     if (usd == null) throw new L.Fail('price', 'No live price for that token right now, so robots.txt can\'t check the size.');
@@ -142,6 +143,7 @@ async function build(req, b) {
     if (!si || !si.swapInstruction) throw new L.Fail('route', 'Jupiter didn\'t return a swap for that route.');
     const WSOL = L.SOL;
     let x = transactionBuilder();
+    if (topup > 0) x = x.add(tb.transferSol(umi, { source: me, destination: L.umiPk(pda), amount: sol(topup) }));
     // the agent's token accounts (you pay their rent once; they belong to the agent)
     for (const m of new Set([from.mint, to.mint])) x = x.add(tb.createIdempotentAssociatedToken(umi, { payer: me, owner: L.umiPk(pda), mint: L.umiPk(m) }));
     if (from.mint === WSOL) {
@@ -191,3 +193,4 @@ module.exports = L.wrap(async (req, res) => {
   L.send(res, 200, { ok: true, agent: v });
 });
 module.exports.readAgent = readAgent;
+module.exports.holdings = holdings;
