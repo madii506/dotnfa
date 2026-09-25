@@ -233,6 +233,13 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
 .sheet .x{position:absolute;right:14px;top:12px;width:34px;height:34px;border-radius:50%;border:0;background:transparent;color:var(--mute);font-size:22px;cursor:pointer}
 .wbtn{display:flex;align-items:center;gap:12px;height:54px;padding:0 16px;border-radius:14px;border:1px solid var(--line2);background:#fbfaf7;font:700 15px/1 Inter;cursor:pointer;text-align:left}
 .wbtn:hover{border-color:var(--ink)}
+.wbtn .det{margin-left:auto;font:700 11px/1 var(--mono);color:var(--mute)}
+a.wbtn{text-decoration:none}
+.connect2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:520px}
+.connect2 .wbtn{height:64px;font-size:16px}
+.inv-top{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.ag.sel b{background:var(--lime);padding:0 6px;border-radius:6px}
+@media (max-width:860px){.connect2{grid-template-columns:1fr}}
 .wlogo{width:28px;height:28px;border-radius:8px;background:#ccc}
 .wlogo.phantom{background:#ab9ff2}.wlogo.backpack{background:#e33e3f}.wlogo.solflare{background:#fc7227}
 
