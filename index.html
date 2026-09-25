@@ -21,8 +21,8 @@
 <body class="game">
 <nav class="nav" aria-label="Main">
   <a class="mark" href="/" aria-label=".nfa home"><canvas id="navmark" width="44" height="60"></canvas><canvas data-logo="2" aria-hidden="true"></canvas></a>
-  <div class="links"><a href="#create">Create</a><a href="#quests">Quests</a><a href="#hall">Hall</a><a href="/inventory">Inventory</a><a href="#faq">FAQ</a></div>
-  <div class="right"><a class="pbtn sm lime mintcta" href="#create" id="navMint">▶ Mint</a><button class="pbtn sm" id="walletBtn" type="button">Connect wallet</button><button class="pbtn sm burger" type="button" aria-label="Menu">☰</button></div>
+  <div class="links"><a href="#create">Create</a><a href="#quests">Quests</a><a href="#parts">Parts</a><a href="#stack">Stack</a><a href="#hall">Hall</a><a href="/inventory">Inventory</a><a href="#faq">FAQ</a></div>
+  <div class="right"><a class="pbtn sm lime mintcta" href="#create" id="navMint">▶ Create</a><button class="pbtn sm" id="walletBtn" type="button">Connect wallet</button><button class="pbtn sm burger" type="button" aria-label="Menu">☰</button></div>
 </nav>
 
 <main>
@@ -30,11 +30,9 @@
     <canvas class="sky" id="sky" aria-hidden="true"></canvas>
     <div class="creator">
       <div class="podium">
-        <div class="title-card rv"><span class="k">NON-FUNGIBLE AGENT</span><h1><span class="sr">.nfa</span><canvas id="logo" aria-hidden="true"></canvas></h1><p>Create an AI agent. Mint it as an NFT with <b>its own wallet</b>. Own it, run it, sell it.</p></div>
+        <h1 class="sr">.nfa — non-fungible agent. Create an AI agent, mint it as an NFT with its own wallet.</h1>
         <div class="hero-agent">
-          <div class="bub" id="bub" aria-live="polite"></div>
-          <div class="plate"><span id="plateName">Your agent</span></div>
-          <canvas id="agentCv" role="img" aria-label="Your pixel agent"></canvas>
+          <canvas id="agentCv" role="img" aria-label="Your agent, as its NFT will look"></canvas>
           <canvas id="pedestal" aria-hidden="true"></canvas>
           <div class="rarity" id="rarity"><b>—</b><span>—</span></div>
         </div>
@@ -64,14 +62,22 @@
           <div class="field2"><span>START ITS WALLET WITH</span><div class="seg2" id="fundSeg"><button type="button" data-v="0" class="on">Nothing</button><button type="button" data-v="0.05">0.05 SOL</button><button type="button" data-v="0.1">0.1 SOL</button><button type="button" data-v="0.25">0.25 SOL</button></div></div>
           <div class="field2"><span>WALLET</span><div class="wrow" id="wrow"></div></div>
           <div class="loot" id="sum"></div>
-          <button class="pbtn lime big" id="mintBtn" type="button">▶ MINT THIS AGENT</button>
+          <button class="pbtn lime big" id="mintBtn" type="button">MINT NOT LIVE YET</button>
           <ol class="steps2" id="steps" hidden></ol>
           <div id="mintMsg"></div>
-          <p class="hint">No .nfa fee. You pay Solana's rent for the NFT and its registry entry, plus the network fee. It's dry-run on mainnet first.</p>
+          <p class="hint" id="mintHint">Mint isn't live yet. Build your agent now; the draft stays saved in this browser. When mint opens, this button turns on.</p>
         </div>
       </div>
     </div>
     <a class="scroll-cue" href="#quests" aria-label="Scroll down">▼</a>
+  </section>
+
+  <section class="hud" aria-label="Facts">
+    <div><span>MINT</span><b id="hMint">NOT LIVE YET</b></div>
+    <div><span>POSSIBLE LOOKS</span><b id="hLooks">—</b></div>
+    <div><span>RAREST LOOK</span><b id="hRare">—</b></div>
+    <div><span>RENT PER AGENT</span><b>≈ 0.006 SOL</b></div>
+    <div><span>LATEST METAPLEX AGENT</span><b id="hReg">—</b></div>
   </section>
 
   <section class="band" id="quests">
@@ -84,19 +90,49 @@
         <li class="rv"><canvas data-ic="up" aria-hidden="true"></canvas><span class="lvn">LV 4</span><h3>Trade by the rules</h3><p>Swaps through Jupiter from its own wallet, only inside robots.txt. You press and sign.</p><small>+ ON-CHAIN RECORD</small></li>
         <li class="rv"><canvas data-ic="swap" aria-hidden="true"></canvas><span class="lvn">LV 5</span><h3>Change hands</h3><p>Sell the NFT and the agent goes with it: wallet, balance, rules, history.</p><small>+ A REAL ASSET</small></li>
       </ol>
-      <div class="items rv">
-        <div class="item"><b>CORE NFT</b><code>CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d</code></div>
-        <div class="item"><b>AGENT REGISTRY</b><code>1DREGFgysWYxLnRnKQnwrxnJQeSMk2HmGaC6whw2B2p</code></div>
-        <div class="item"><b>ITS WALLET</b><span>Core asset signer. No private key.</span></div>
-        <div class="item"><b>TRADES</b><span>Jupiter route, run through Core's Execute.</span></div>
+    </div>
+  </section>
+
+  <section class="band alt" id="parts">
+    <div class="wrap2">
+      <div class="head2 rv"><span class="k">PARTS</span><h2>Every part, and how rare it is.</h2><p class="sub2">43,200 possible looks. Each part has a drop rate; together they set your agent's odds. Tap a part to put it on.</p></div>
+      <div class="ptabs inline" id="partTabs" role="tablist"></div>
+      <div class="parts" id="partGrid"></div>
+      <div class="tiers rv" id="tiers"></div>
+    </div>
+  </section>
+
+  <section class="band" id="stack">
+    <div class="wrap2">
+      <div class="head2 rv"><span class="k">THE STACK</span><h2>No magic. Just open programs.</h2><p class="sub2">.nfa writes nothing custom on-chain. It puts existing Solana programs together, so everything can be checked on Solscan.</p></div>
+      <div class="flow rv">
+        <div class="node you"><b>YOUR WALLET</b><span>Phantom or Solflare. Owns the NFT, signs every move.</span></div>
+        <i class="arw2" aria-hidden="true">▶</i>
+        <div class="node nft"><b>CORE NFT</b><span>The agent. Look and robots.txt stored as attributes on the asset.</span><a href="https://solscan.io/account/CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d" target="_blank" rel="noopener">CoREEN…hX7d ↗</a></div>
+        <i class="arw2" aria-hidden="true">▶</i>
+        <div class="node bag"><b>ITS WALLET</b><span>The asset's signer address. No private key; moves only through the owner.</span></div>
+        <i class="arw2" aria-hidden="true">▶</i>
+        <div class="node jup"><b>JUPITER</b><span>Finds the swap route. Runs from the agent's wallet via Core's Execute.</span></div>
+      </div>
+      <div class="flow2 rv">
+        <div class="node reg"><b>AGENT REGISTRY</b><span>Metaplex's public list of agents. Gives yours an ID and a registration file.</span><a href="https://solscan.io/account/1DREGFgysWYxLnRnKQnwrxnJQeSMk2HmGaC6whw2B2p" target="_blank" rel="noopener">1DREGF…2B2p ↗</a></div>
+        <div class="node rb"><b>ROBOTS.TXT</b><span>Max per trade, trades a day, allowed tokens. Checked before your wallet sees a trade.</span></div>
+        <div class="node dry"><b>DRY RUN</b><span>Every transaction is simulated on mainnet first. If it would fail, you never sign it.</span></div>
+      </div>
+      <div class="works rv">
+        <div class="col"><h3>WORKS TODAY</h3><ul>
+          <li>Build a look and robots.txt</li><li>Read any agent on Metaplex's registry</li><li>Inventory: what your wallet really holds</li>
+          <li>Agent pages: wallet, activity, rules</li><li>Fund, withdraw and swap for agents you own, signed by you</li></ul></div>
+        <div class="col no"><h3>NOT YET</h3><ul>
+          <li>Minting on .nfa</li><li>Agents that trade on their own</li></ul></div>
       </div>
     </div>
   </section>
 
-  <section class="band alt" id="hall">
+  <section class="band" id="hall">
     <div class="wrap2">
       <div class="head2 rv"><span class="k">HALL OF AGENTS</span><h2>Every agent, read from the chain.</h2></div>
-      <div class="ptabs inline" id="hallTabs" role="tablist"><button class="on" data-v="here" type="button">Minted on .nfa</button><button data-v="all" type="button">Every registered agent</button></div>
+      <div class="ptabs inline" id="hallTabs" role="tablist"><button class="on" data-v="all" type="button">Every registered agent</button><button data-v="here" type="button">Minted on .nfa</button></div>
       <div class="look2"><input class="pin" id="lookIn" placeholder="Agent address or owner wallet" autocomplete="off" aria-label="Look up"><button class="pbtn" id="lookBtn" type="button">Look up</button></div>
       <div id="wall"></div>
     </div>
@@ -105,6 +141,7 @@
   <section class="band" id="faq">
     <div class="wrap2 faq">
       <div class="head2 rv"><span class="k">FAQ</span><h2>Questions.</h2></div>
+      <details><summary>Is mint live?</summary><div class="a">Not yet. When it opens, the mint button on this page turns on. Until then you can build your agent; the draft stays saved in this browser.</div></details>
       <details><summary>What does minting cost?</summary><div class="a">No .nfa fee. You pay Solana's rent for the NFT and its registry entry (about 0.006 SOL) and the network fee. The mint tab shows the exact number from a dry run before you sign.</div></details>
       <details><summary>Can the agent spend my money?</summary><div class="a">No. Its wallet is separate from yours, and nothing leaves it unless the NFT's owner signs. You decide what goes in.</div></details>
       <details><summary>What happens when I sell it?</summary><div class="a">The NFT moves to the buyer, and with it the agent's wallet, balance, rules and history. From then on only the new owner can move money out.</div></details>
@@ -116,6 +153,18 @@
     </div>
   </section>
 </main>
+
+<footer class="foot2">
+  <div class="wrap2">
+    <div class="fcols">
+      <div class="fbrand"><canvas data-logo="4" data-ink="#f7f6f2" aria-hidden="true"></canvas><p>Non-fungible agent. Also not financial advice.</p></div>
+      <div><b>PLAY</b><a href="#create">Create</a><a href="#hall">Hall</a><a href="/inventory">Inventory</a></div>
+      <div><b>LEARN</b><a href="#quests">Quests</a><a href="#parts">Parts</a><a href="#stack">Stack</a><a href="#faq">FAQ</a></div>
+      <div><b>ON-CHAIN</b><a href="https://solscan.io/account/CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d" target="_blank" rel="noopener">Metaplex Core ↗</a><a href="https://solscan.io/account/1DREGFgysWYxLnRnKQnwrxnJQeSMk2HmGaC6whw2B2p" target="_blank" rel="noopener">Agent Registry ↗</a><a href="https://solscan.io/account/BdTMq5DaUn8EvNjmgjyYkwZhbTgQPuhu8kuWi3zgb27y" target="_blank" rel="noopener">.nfa anchor ↗</a></div>
+    </div>
+    <p class="fine2">.nfa is independent and not affiliated with Metaplex, Jupiter, Phantom or Solflare. Crypto can go to zero. Not financial advice.</p>
+  </div>
+</footer>
 
 <script src="/assets/js/common.js"></script>
 <script src="/assets/js/agentpx.js"></script>
