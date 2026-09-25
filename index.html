@@ -4,127 +4,122 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>.nfa</title>
-<meta name="description" content="Non-fungible agent. An AI agent minted as an NFT on Solana, with its own wallet. Own it, run it, sell it.">
+<meta name="description" content="Non-fungible agent. Create an AI agent, mint it as an NFT on Solana with its own wallet. Own it, run it, sell it.">
 <meta name="theme-color" content="#f7f6f2">
 <meta property="og:title" content=".nfa — Non-fungible agent.">
-<meta property="og:description" content="An AI agent minted as an NFT, with its own wallet. Own it, run it, sell it.">
+<meta property="og:description" content="Create an AI agent, mint it as an NFT with its own wallet. Own it, run it, sell it.">
 <meta property="og:image" content="/assets/img/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="/assets/img/favicon-64.png">
 <link rel="apple-touch-icon" href="/assets/img/favicon-180.png">
-<link rel="preload" href="/assets/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/pixelify.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/css/nfa.css">
+<link rel="stylesheet" href="/assets/css/game.css">
 <script>document.documentElement.classList.add('js')</script>
 </head>
-<body>
-<div class="scam" id="scam" role="note"></div>
+<body class="game">
 <nav class="nav" aria-label="Main">
-  <a class="mark" href="/" aria-label=".nfa home"><canvas id="navmark" width="44" height="60"></canvas>.nfa</a>
-  <div class="links"><a href="#what">What</a><a href="#build">Build</a><a href="#rules">robots.txt</a><a href="#mint">Mint</a><a href="#registry">Registry</a><a href="#faq">FAQ</a><a href="/inventory">Inventory</a></div>
-  <div class="right"><button class="btn sm" id="walletBtn" type="button">Connect wallet</button></div>
+  <a class="mark" href="/" aria-label=".nfa home"><canvas id="navmark" width="44" height="60"></canvas><canvas data-logo="2" aria-hidden="true"></canvas></a>
+  <div class="links"><a href="#create">Create</a><a href="#quests">Quests</a><a href="#hall">Hall</a><a href="/inventory">Inventory</a><a href="#faq">FAQ</a></div>
+  <div class="right"><a class="pbtn sm lime mintcta" href="#create" id="navMint">▶ Mint</a><button class="pbtn sm" id="walletBtn" type="button">Connect wallet</button><button class="pbtn sm burger" type="button" aria-label="Menu">☰</button></div>
 </nav>
 
-<div class="split">
-  <aside class="stage" id="stage" aria-label="Your agent">
-    <div class="who"><div class="bub" aria-live="polite"></div><canvas id="agentCv" role="img" aria-label="Pixel agent"></canvas>
-      <div class="tag" id="stName">Your agent</div><div class="sub" id="stSub">not minted · 1 of 1</div></div>
-    <div class="foot"><div><span>Looks like this</span><b id="stOdds">—</b></div><div><span>Max a trade</span><b id="stMax">—</b></div><div><span>Allowed</span><b id="stAllow">—</b></div></div>
-  </aside>
-
-  <main class="flow">
-    <section class="ch hero" id="top">
-      <div class="kick rv">Non-fungible agent</div>
-      <h1 class="rv">.nfa</h1>
-      <p class="line rv">An AI agent that lives inside an NFT, with <i>its own wallet.</i> Own it, run it, sell it.</p>
-      <div class="acts rv"><a class="btn lg" href="#build">Build yours</a><a class="btn lg ghost" href="#registry">See the registry</a></div>
-      <div class="spec rv"><span class="chip"><i></i>Metaplex Core NFT</span><span class="chip"><i></i>Metaplex Agent Registry</span><span class="chip"><i></i>Its own wallet</span><span class="chip"><i></i>Solana mainnet</span></div>
-    </section>
-
-    <section class="ch" id="what">
-      <div class="ey rv"><b>01</b> What it is</div>
-      <h2 class="rv">It's an NFT. It's an agent. <i>It has a wallet.</i></h2>
-      <p class="lead rv">Also: not financial advice. Two meanings, three letters. The second one is the product.</p>
-      <div class="rows">
-        <div class="row rv" data-say="I'm a Metaplex Core asset. One of one."><span class="n">.1</span><div><h3>It's an NFT</h3><p>Every agent is a Metaplex Core asset on Solana, owned by your wallet. Its look and its rules are written on the NFT itself.</p></div></div>
-        <div class="row rv" data-say="I'm on Metaplex's Agent Registry. Other agents can look me up."><span class="n">.2</span><div><h3>It's an agent</h3><p>At mint it's registered on Metaplex's Agent Registry, with a public registration file: what it is, where to talk to it, and its robots.txt.</p></div></div>
-        <div class="row rv" data-say="My wallet has no private key. Only my owner can move money out."><span class="n">.3</span><div><h3>It has its own wallet</h3><p>Each agent gets a wallet derived from the NFT, with no private key anywhere. Money goes in freely; it only comes out when the NFT's owner signs.</p></div></div>
-        <div class="row rv" data-say="Sell me and I go with everything: wallet, rules, record."><span class="n">.4</span><div><h3>Sell the NFT, the agent goes with it</h3><p>Transfer or sell the NFT and the new owner gets the agent, its wallet, its balance and its history. Nothing to migrate.</p></div></div>
+<main>
+  <section class="screen" id="create">
+    <canvas class="sky" id="sky" aria-hidden="true"></canvas>
+    <div class="creator">
+      <div class="podium">
+        <div class="title-card rv"><span class="k">NON-FUNGIBLE AGENT</span><h1><span class="sr">.nfa</span><canvas id="logo" aria-hidden="true"></canvas></h1><p>Create an AI agent. Mint it as an NFT with <b>its own wallet</b>. Own it, run it, sell it.</p></div>
+        <div class="hero-agent">
+          <div class="bub" id="bub" aria-live="polite"></div>
+          <div class="plate"><span id="plateName">Your agent</span></div>
+          <canvas id="agentCv" role="img" aria-label="Your pixel agent"></canvas>
+          <canvas id="pedestal" aria-hidden="true"></canvas>
+          <div class="rarity" id="rarity"><b>—</b><span>—</span></div>
+        </div>
       </div>
-    </section>
 
-    <section class="ch" id="build">
-      <div class="ey rv"><b>02</b> Build</div>
-      <h2 class="rv">Make one. <i>It's the one on the left.</i></h2>
-      <p class="lead rv">Pick its parts. Rare parts make rarer agents; the number below is how many tries it would take to roll this exact look.</p>
-      <div class="opts" id="opts"></div>
-      <div class="odds rv"><b id="odds">—</b><span>1 in this many looks. Yours is 1 of 1 once minted.</span></div>
-    </section>
+      <div class="win" id="panel">
+        <div class="bar"><span>CREATE AGENT</span><i></i><i></i><i></i></div>
+        <div class="ptabs" role="tablist"><button class="on" data-t="look" type="button">1 · LOOK</button><button data-t="rules" type="button">2 · RULES</button><button data-t="mint" type="button">3 · MINT</button></div>
 
-    <section class="ch" id="rules">
-      <div class="ey rv"><b>03</b> robots.txt</div>
-      <h2 class="rv">Give it rules <i>it can't break.</i></h2>
-      <p class="lead rv">The rules are written onto the NFT. When it trades from its wallet, the site checks every trade against this file before your wallet ever sees it. Sell the agent and the rules go with it.</p>
-      <div class="rgrid">
-        <div class="ctl rv" id="ruleCtl"></div>
-        <div class="file rv"><div class="bar"><i></i><i></i><i></i><span id="fileName">robots.txt</span></div><pre id="robots"></pre></div>
+        <div class="tab" data-t="look">
+          <div id="sel"></div>
+          <div class="row-btns"><button class="pbtn" id="rand" type="button">? Random</button><button class="pbtn ghost" id="next1" type="button">Next: rules ▶</button></div>
+        </div>
+
+        <div class="tab" data-t="rules" hidden>
+          <p class="hint">Its robots.txt. Written onto the NFT; every trade is checked against it before your wallet sees anything.</p>
+          <div class="stat"><div class="top"><span>MAX PER TRADE</span><b id="rMaxV"></b></div><input type="range" id="rMax" min="5" max="500" step="5" aria-label="Max per trade"><div class="meter"><i id="rMaxM"></i></div></div>
+          <div class="stat"><div class="top"><span>TRADES A DAY</span><b id="rDayV"></b></div><input type="range" id="rDay" min="1" max="20" aria-label="Trades per day"><div class="meter"><i id="rDayM"></i></div></div>
+          <div class="field2"><span>MAY TOUCH</span><div class="tok" id="rTok"></div></div>
+          <div class="field2"><span>STYLE</span><div class="seg2" id="rStyle"><button type="button" data-v="careful">Careful</button><button type="button" data-v="steady">Steady</button><button type="button" data-v="bold">Bold</button></div></div>
+          <details class="robots"><summary>View robots.txt</summary><pre id="robots"></pre></details>
+          <div class="row-btns"><button class="pbtn ghost" id="back1" type="button">◀ Look</button><button class="pbtn ghost" id="next2" type="button">Next: mint ▶</button></div>
+        </div>
+
+        <div class="tab" data-t="mint" hidden>
+          <label class="field2"><span>NAME</span><span class="namebox2"><input class="pin" id="nameIn" maxlength="32" placeholder="Name your agent" autocomplete="off"><button class="pbtn ghost sm" id="rollName" type="button" aria-label="Suggest a name">Roll</button></span></label>
+          <div class="field2"><span>START ITS WALLET WITH</span><div class="seg2" id="fundSeg"><button type="button" data-v="0" class="on">Nothing</button><button type="button" data-v="0.05">0.05 SOL</button><button type="button" data-v="0.1">0.1 SOL</button><button type="button" data-v="0.25">0.25 SOL</button></div></div>
+          <div class="field2"><span>WALLET</span><div class="wrow" id="wrow"></div></div>
+          <div class="loot" id="sum"></div>
+          <button class="pbtn lime big" id="mintBtn" type="button">▶ MINT THIS AGENT</button>
+          <ol class="steps2" id="steps" hidden></ol>
+          <div id="mintMsg"></div>
+          <p class="hint">No .nfa fee. You pay Solana's rent for the NFT and its registry entry, plus the network fee. It's dry-run on mainnet first.</p>
+        </div>
       </div>
-    </section>
+    </div>
+    <a class="scroll-cue" href="#quests" aria-label="Scroll down">▼</a>
+  </section>
 
-    <section class="ch" id="mint">
-      <div class="ey rv"><b>04</b> Mint</div>
-      <h2 class="rv">Mint it. <i>It's yours.</i></h2>
-      <p class="lead rv">One transaction: the NFT, its registry entry, and optionally some SOL in its wallet. It's dry-run on mainnet first so you see the exact cost. There is no .nfa fee; you pay Solana's storage rent and network fee.</p>
-      <div class="card rv" id="mintCard">
-        <div class="namebox"><input class="in" id="nameIn" maxlength="32" placeholder="Name your agent" autocomplete="off" aria-label="Agent name"><button class="btn ghost" id="rollName" type="button">Suggest</button></div>
-        <div class="field" style="margin-top:16px"><span>Start its wallet with</span><div class="seg" id="fundSeg"><button type="button" data-v="0" class="on">Nothing</button><button type="button" data-v="0.05">0.05 SOL</button><button type="button" data-v="0.1">0.1 SOL</button><button type="button" data-v="0.25">0.25 SOL</button></div></div>
-        <div class="sum" id="sum"></div>
-        <div class="acts2"><button class="btn lg" id="mintBtn" type="button">Connect wallet to mint</button></div>
-        <ul class="steps" id="steps" hidden></ul>
-        <div id="mintMsg"></div>
+  <section class="band" id="quests">
+    <div class="wrap2">
+      <div class="head2 rv"><span class="k">QUEST LOG</span><h2>Five levels. All on-chain.</h2></div>
+      <ol class="levels">
+        <li class="rv"><canvas data-ic="nft" aria-hidden="true"></canvas><span class="lvn">LV 1</span><h3>Be born</h3><p>A Metaplex Core NFT on Solana, owned by your wallet. Its look and rules are written on it.</p><small>+ A 1 OF 1</small></li>
+        <li class="rv"><canvas data-ic="id" aria-hidden="true"></canvas><span class="lvn">LV 2</span><h3>Get an ID</h3><p>Registered on Metaplex's Agent Registry, with a public file anyone can read.</p><small>+ LOOKUP-ABLE</small></li>
+        <li class="rv"><canvas data-ic="bag" aria-hidden="true"></canvas><span class="lvn">LV 3</span><h3>Hold a wallet</h3><p>A wallet derived from the NFT. No private key. Only the owner moves money out.</p><small>+ A BAG OF ITS OWN</small></li>
+        <li class="rv"><canvas data-ic="up" aria-hidden="true"></canvas><span class="lvn">LV 4</span><h3>Trade by the rules</h3><p>Swaps through Jupiter from its own wallet, only inside robots.txt. You press and sign.</p><small>+ ON-CHAIN RECORD</small></li>
+        <li class="rv"><canvas data-ic="swap" aria-hidden="true"></canvas><span class="lvn">LV 5</span><h3>Change hands</h3><p>Sell the NFT and the agent goes with it: wallet, balance, rules, history.</p><small>+ A REAL ASSET</small></li>
+      </ol>
+      <div class="items rv">
+        <div class="item"><b>CORE NFT</b><code>CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d</code></div>
+        <div class="item"><b>AGENT REGISTRY</b><code>1DREGFgysWYxLnRnKQnwrxnJQeSMk2HmGaC6whw2B2p</code></div>
+        <div class="item"><b>ITS WALLET</b><span>Core asset signer. No private key.</span></div>
+        <div class="item"><b>TRADES</b><span>Jupiter route, run through Core's Execute.</span></div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="ch" id="registry">
-      <div class="ey rv"><b>05</b> Registry</div>
-      <h2 class="rv">Every agent, <i>read from the chain.</i></h2>
-      <p class="lead rv">No database. Mints here are found through the .nfa anchor address; the second tab reads the newest entries on Metaplex's Agent Registry across all of Solana.</p>
-      <div class="tabs" role="tablist"><button class="on" data-v="here" type="button">Minted on .nfa</button><button data-v="all" type="button">Every registered agent</button><button data-v="mine" type="button">Mine</button></div>
-      <div class="look"><input class="in mono" id="lookIn" placeholder="Agent address or owner wallet" autocomplete="off" aria-label="Look up"><button class="btn ghost" id="lookBtn" type="button">Look up</button></div>
+  <section class="band alt" id="hall">
+    <div class="wrap2">
+      <div class="head2 rv"><span class="k">HALL OF AGENTS</span><h2>Every agent, read from the chain.</h2></div>
+      <div class="ptabs inline" id="hallTabs" role="tablist"><button class="on" data-v="here" type="button">Minted on .nfa</button><button data-v="all" type="button">Every registered agent</button></div>
+      <div class="look2"><input class="pin" id="lookIn" placeholder="Agent address or owner wallet" autocomplete="off" aria-label="Look up"><button class="pbtn" id="lookBtn" type="button">Look up</button></div>
       <div id="wall"></div>
-    </section>
+    </div>
+  </section>
 
-    <section class="ch" id="hood">
-      <div class="ey rv"><b>06</b> Under the hood</div>
-      <h2 class="rv">What's real, <i>and where to check it.</i></h2>
-      <div class="hood rv">
-        <div><b>The NFT</b><p>A Metaplex Core asset (program <code>CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d</code>). Traits and robots.txt are stored in its Attributes plugin, and the owner holds the authority to change them, so the rules follow the NFT.</p></div>
-        <div><b>The registry</b><p>Registered with Metaplex's Agent Registry (program <code>1DREGFgysWYxLnRnKQnwrxnJQeSMk2HmGaC6whw2B2p</code>) pointing at a public registration file with its web page, chat endpoint and robots.txt.</p></div>
-        <div><b>The wallet</b><p>The Core asset signer: an address derived from the NFT with no private key. Money leaves only through Core's Execute instruction, which only the NFT's owner can sign.</p></div>
-        <div><b>Trades</b><p>Jupiter routes the swap; the swap runs inside Execute, so it happens from the agent's own wallet. The site refuses any trade outside robots.txt before your wallet is asked.</p></div>
-        <div><b>Dry runs</b><p>Every mint and action is simulated against Solana mainnet on the server first. If the simulation fails, nothing reaches your wallet and you see why.</p></div>
-        <div><b>What it can't do</b><p>It can't trade while you sleep: every trade needs the owner's signature. It can't hold your keys. The chat reads its real wallet and rules, but it doesn't make decisions for you.</p></div>
-      </div>
-    </section>
-
-    <section class="ch faq" id="faq">
-      <div class="ey rv"><b>07</b> FAQ</div>
-      <h2 class="rv">Questions.</h2>
-      <details><summary>What does minting cost?</summary><div class="a">No .nfa fee. You pay Solana's rent for the NFT and its registry entry (about 0.005 SOL, refundable only by burning) and the network fee. The mint panel shows the exact number from a dry run before you sign.</div></details>
-      <details><summary>Can the agent spend my money?</summary><div class="a">No. The agent's wallet is separate from yours, and nothing leaves it unless the NFT's owner signs. You decide what goes in.</div></details>
-      <details><summary>What happens when I sell it?</summary><div class="a">The NFT moves to the buyer, and with it the agent's wallet, balance, rules and history. From then on only the new owner can move money out. Core assets trade on marketplaces that support Metaplex Core.</div></details>
-      <details><summary>Does it trade on its own?</summary><div class="a">Not yet. It chats, writes status notes from its real wallet, and suggests at most one trade that fits its rules. You press the button and sign. robots.txt caps what it may ever be asked to do.</div></details>
+  <section class="band" id="faq">
+    <div class="wrap2 faq">
+      <div class="head2 rv"><span class="k">FAQ</span><h2>Questions.</h2></div>
+      <details><summary>What does minting cost?</summary><div class="a">No .nfa fee. You pay Solana's rent for the NFT and its registry entry (about 0.006 SOL) and the network fee. The mint tab shows the exact number from a dry run before you sign.</div></details>
+      <details><summary>Can the agent spend my money?</summary><div class="a">No. Its wallet is separate from yours, and nothing leaves it unless the NFT's owner signs. You decide what goes in.</div></details>
+      <details><summary>What happens when I sell it?</summary><div class="a">The NFT moves to the buyer, and with it the agent's wallet, balance, rules and history. From then on only the new owner can move money out.</div></details>
+      <details><summary>Does it trade on its own?</summary><div class="a">Not yet. It chats, writes status notes from its real wallet, and suggests at most one trade that fits its rules. You press the button and sign.</div></details>
+      <details><summary>How do I connect on my phone?</summary><div class="a">Tap Connect wallet, then Open in Phantom or Open in Solflare. The site opens inside the wallet's own browser, where connecting works.</div></details>
+      <details><summary>Where do I see my agents?</summary><div class="a">In your inventory. Connect Phantom or Solflare (top right) and it reads what your wallet really holds.</div></details>
       <details><summary>Is .nfa part of Metaplex?</summary><div class="a">No. .nfa is independent. It uses Metaplex's open programs (Core and the Agent Registry) and Jupiter's public API.</div></details>
-      <details><summary>Is there a token?</summary><div class="a">$NFA isn't live yet. When it is, its address will appear in the black bar at the top of this page. Anything posted before that isn't us.</div></details>
-      <details><summary>Is this financial advice?</summary><div class="a">It's literally in the name: not financial advice. Crypto can go to zero. Only put in what you can lose.</div></details>
-    </section>
-  </main>
-</div>
+      <details><summary>Is this financial advice?</summary><div class="a">It's in the name: not financial advice. Crypto can go to zero. Only put in what you can lose.</div></details>
+    </div>
+  </section>
+</main>
 
 <script src="/assets/js/common.js"></script>
 <script src="/assets/js/agentpx.js"></script>
 <script src="/assets/js/wallet.js"></script>
-<script src="/assets/js/stage.js"></script>
 <script src="/assets/js/home.js"></script>
 </body>
 </html>

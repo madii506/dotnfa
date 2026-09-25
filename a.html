@@ -10,16 +10,16 @@
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="/assets/img/favicon-64.png">
 <link rel="apple-touch-icon" href="/assets/img/favicon-180.png">
-<link rel="preload" href="/assets/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/pixelify.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/css/nfa.css">
+<link rel="stylesheet" href="/assets/css/game.css">
 <script>document.documentElement.classList.add('js')</script>
 </head>
-<body>
-<div class="scam" id="scam" role="note"></div>
+<body class="game">
 <nav class="nav" aria-label="Main">
-  <a class="mark" href="/" aria-label=".nfa home"><canvas id="navmark" width="44" height="60"></canvas>.nfa</a>
-  <div class="links"><a href="#wallet">Wallet</a><a href="#act">Actions</a><a href="#log">Activity</a><a href="#record">Record</a><a href="/#registry">Registry</a><a href="/inventory">Inventory</a></div>
-  <div class="right"><button class="btn sm" id="walletBtn" type="button">Connect wallet</button></div>
+  <a class="mark" href="/" aria-label=".nfa home"><canvas id="navmark" width="44" height="60"></canvas><canvas data-logo="2" aria-hidden="true"></canvas></a>
+  <div class="links"><a href="#wallet">Wallet</a><a href="#act">Actions</a><a href="#log">Activity</a><a href="/#hall">Hall</a><a href="/inventory">Inventory</a><a href="/#faq">FAQ</a></div>
+  <div class="right"><a class="pbtn sm lime mintcta" href="/#create">▶ Create</a><button class="pbtn sm" id="walletBtn" type="button">Connect wallet</button><button class="pbtn sm burger" type="button" aria-label="Menu">☰</button></div>
 </nav>
 
 <div class="split">
