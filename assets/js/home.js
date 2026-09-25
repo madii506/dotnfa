@@ -283,7 +283,7 @@
     }
     const g = document.createElement('div'); g.className = 'hall';
     r.items.slice(0, 48).forEach((x, i) => g.appendChild(agx(x, i)));
-    wall.innerHTML = ''; wall.appendChild(g);
+    wall.innerHTML = view === 'all' ? '<p class="hint" style="margin:0 0 18px">Real entries on Metaplex\'s Agent Registry, most from other projects (marked EXTERNAL). Their pixel look is drawn by .nfa from their address; it isn\'t their own art.</p>' : ''; wall.appendChild(g);
   }
   $('#hallTabs').onclick = e => { const b = e.target.closest('button'); if (!b) return; view = b.dataset.v; $$('#hallTabs button').forEach(x => x.classList.toggle('on', x === b)); loadWall(); };
   $('#lookBtn').onclick = async () => {
