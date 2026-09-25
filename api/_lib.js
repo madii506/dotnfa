@@ -32,7 +32,7 @@ function wrap(fn) {
     catch (e) {
       if (e instanceof Fail) return send(res, e.code, { ok: false, reason: e.reason, msg: e.message, ...(e.extra || {}) });
       console.error('[nfa]', e && e.stack || e);
-      return send(res, 500, { ok: false, reason: 'server', msg: 'Something broke on our side. Try again in a minute.' });
+      return send(res, 500, { ok: false, reason: 'server', msg: 'Something broke on our side. Try again in a minute.', detail: String(e && e.message || e).slice(0, 240) });
     }
   };
 }
