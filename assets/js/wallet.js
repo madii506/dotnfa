@@ -1,0 +1,72 @@
+// Wallets: Phantom, Backpack, Solflare. .nfa only asks them to sign; it never sees a key.
+(function () {
+  const { api, toast, store } = window.I;
+  const PROVIDERS = () => [
+    { id: 'phantom', name: 'Phantom', get: () => (window.phantom && window.phantom.solana) || (window.solana && window.solana.isPhantom && window.solana) },
+    { id: 'backpack', name: 'Backpack', get: () => window.backpack && (window.backpack.solana || window.backpack) },
+    { id: 'solflare', name: 'Solflare', get: () => window.solflare && window.solflare.isSolflare && window.solflare },
+  ].map(p => ({ ...p, p: p.get() })).filter(p => p.p);
+  const W = { provider: null, address: null, id: null, listeners: [] };
+  const emit = () => W.listeners.forEach(f => { try { f(W); } catch {} });
+  async function loadWeb3() {
+    if (window.solanaWeb3) return window.solanaWeb3;
+    await new Promise((res, rej) => { const s = document.createElement('script'); s.src = '/assets/vendor/web3.min.js'; s.onload = res; s.onerror = rej; document.head.appendChild(s); });
+    return window.solanaWeb3;
+  }
+  const b64ToBytes = b => Uint8Array.from(atob(b), c => c.charCodeAt(0));
+  const bytesToB64 = u => { let s = ''; for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000)); return btoa(s); };
+  async function connect(id) {
+    const pr = PROVIDERS().find(p => p.id === id); if (!pr) { toast('That wallet isn\'t installed in this browser.'); return false; }
+    try {
+      const r = await pr.p.connect();
+      W.provider = pr.p; W.address = ((r && r.publicKey) || pr.p.publicKey).toString(); W.id = id;
+      store.set('wallet', id); emit(); return true;
+    } catch { toast('The wallet didn\'t connect.'); return false; }
+  }
+  async function reconnect() {
+    const id = store.get('wallet'); if (!id) return;
+    const pr = PROVIDERS().find(p => p.id === id); if (!pr) return;
+    try { const r = await pr.p.connect({ onlyIfTrusted: true }); const pk = ((r && r.publicKey) || pr.p.publicKey || '').toString(); if (pk) { W.provider = pr.p; W.address = pk; W.id = id; emit(); } } catch {}
+  }
+  async function disconnect() { try { await W.provider && W.provider.disconnect && W.provider.disconnect(); } catch {} W.provider = null; W.address = null; W.id = null; store.del('wallet'); emit(); }
+  // the wallet adds its signature to a transaction the server built (and, for a mint, already signed with the new asset key)
+  async function sign(b64) {
+    if (!W.provider) throw new Error('Connect a wallet first.');
+    const W3 = await loadWeb3();
+    const tx = W3.VersionedTransaction.deserialize(b64ToBytes(b64));
+    const s = await W.provider.signTransaction(tx);
+    return bytesToB64(s.serialize());
+  }
+  async function send(signedB64) { const r = await api('tx', { raw: signedB64 }); if (!r.ok) throw new Error(r.msg || 'Sending failed.'); return r.sig; }
+  async function confirm(sig, tries = 45) {
+    for (let k = 0; k < tries; k++) { await new Promise(r => setTimeout(r, 1400)); const r = await api('tx?sig=' + encodeURIComponent(sig)); if (r.ok && r.status !== 'pending') return r.status; }
+    return 'pending';
+  }
+  function picker(onDone) {
+    const list = PROVIDERS();
+    const box = document.createElement('div'); box.className = 'modal'; box.setAttribute('role', 'dialog');
+    box.innerHTML = `<div class="sheet"><button class="x" aria-label="Close">×</button><h3>Connect a wallet</h3>
+      ${list.length ? list.map(p => `<button class="wbtn" data-id="${p.id}"><span class="wlogo ${p.id}"></span>${p.name}</button>`).join('') : '<p style="margin:0;color:var(--ink2)">No Solana wallet found in this browser. Install Phantom, Backpack or Solflare, then reload.</p>'}
+      <p class="fine">Your wallet signs; .nfa never sees your keys. Every transaction is dry-run on mainnet before your wallet sees it.</p></div>`;
+    document.body.appendChild(box); requestAnimationFrame(() => box.classList.add('on'));
+    const close = () => { box.classList.remove('on'); setTimeout(() => box.remove(), 200); };
+    box.addEventListener('click', async e => {
+      if (e.target === box || e.target.closest('.x')) return close();
+      const b = e.target.closest('.wbtn'); if (!b) return;
+      const ok = await connect(b.dataset.id); close(); if (ok && onDone) onDone();
+    });
+  }
+  function button(el) {
+    const paint = () => { if (W.address) { el.innerHTML = `<span class="dot"></span>${I.esc(I.fmt.short(W.address))}`; el.classList.add('ghost'); } else { el.textContent = 'Connect wallet'; el.classList.remove('ghost'); } };
+    el.onclick = () => {
+      if (!W.address) return picker();
+      const box = document.createElement('div'); box.className = 'modal';
+      box.innerHTML = `<div class="sheet"><button class="x" aria-label="Close">×</button><h3>${I.esc(I.fmt.short(W.address))}</h3><button class="wbtn" data-a="mine">My agents</button><button class="wbtn" data-a="copy">Copy address</button><button class="wbtn" data-a="out">Disconnect</button></div>`;
+      document.body.appendChild(box); requestAnimationFrame(() => box.classList.add('on'));
+      const shut = () => { box.classList.remove('on'); setTimeout(() => box.remove(), 200); };
+      box.onclick = async e => { if (e.target === box || e.target.closest('.x')) return shut(); const a = e.target.closest('[data-a]'); if (!a) return; if (a.dataset.a === 'copy') I.copy(W.address, 'Address copied'); if (a.dataset.a === 'out') await disconnect(); if (a.dataset.a === 'mine') location.href = '/#registry?owner=' + W.address; shut(); };
+    };
+    W.listeners.push(paint); paint();
+  }
+  window.Wallet = { W, PROVIDERS, connect, reconnect, disconnect, sign, send, confirm, picker, button, on: f => W.listeners.push(f), loadWeb3 };
+})();
