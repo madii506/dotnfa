@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>.nfa</title>
+<meta name="description" content="Your inventory: the agents and tokens your wallet really holds, read from Solana.">
+<meta name="theme-color" content="#f7f6f2">
+<meta property="og:image" content="/assets/img/og.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/img/favicon-64.png">
+<link rel="apple-touch-icon" href="/assets/img/favicon-180.png">
+<link rel="preload" href="/assets/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/nfa.css">
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+<div class="scam" id="scam" role="note"></div>
+<nav class="nav" aria-label="Main">
+  <a class="mark" href="/" aria-label=".nfa home"><canvas id="navmark" width="44" height="60"></canvas>.nfa</a>
+  <div class="links"><a href="/#build">Build</a><a href="/#mint">Mint</a><a href="/#registry">Registry</a><a href="/inventory" class="on">Inventory</a></div>
+  <div class="right"><button class="btn sm" id="walletBtn" type="button">Connect wallet</button></div>
+</nav>
+
+<div class="split">
+  <aside class="stage" id="stage" aria-label="Selected agent">
+    <div class="who"><div class="bub" aria-live="polite"></div><canvas id="agentCv" role="img" aria-label="Pixel agent"></canvas>
+      <div class="tag" id="stName">Your inventory</div><div class="sub" id="stSub">connect a wallet</div></div>
+    <div class="foot"><div><span>Agents</span><b id="stAgents">—</b></div><div><span>Wallet</span><b id="stTotal">—</b></div><div><span>SOL</span><b id="stSol">—</b></div></div>
+  </aside>
+
+  <main class="flow">
+    <section class="ch" id="inv">
+      <div class="ey"><b>INVENTORY</b> read from Solana</div>
+      <h2 id="invH">Your bag, <i>for real.</i></h2>
+      <p class="lead" id="invLead">Connect Phantom or Solflare and this page reads what your wallet actually holds: your agents, your other Core NFTs and your tokens. Connecting is read-only; nothing gets signed.</p>
+      <div id="connectBox" class="connect2"></div>
+      <div id="who" hidden></div>
+    </section>
+    <section class="ch" id="agents" hidden>
+      <div class="ey"><b>01</b> Your agents</div>
+      <div id="agentWall"></div>
+    </section>
+    <section class="ch" id="tokens" hidden>
+      <div class="ey"><b>02</b> Your tokens</div>
+      <div class="bal"><b id="tokTotal">$0.00</b></div>
+      <div class="hold" id="tokList"></div>
+    </section>
+    <section class="ch" id="other" hidden>
+      <div class="ey"><b>03</b> Other Core NFTs</div>
+      <div id="otherList"></div>
+    </section>
+  </main>
+</div>
+
+<script src="/assets/js/common.js"></script>
+<script src="/assets/js/agentpx.js"></script>
+<script src="/assets/js/wallet.js"></script>
+<script src="/assets/js/stage.js"></script>
+<script src="/assets/js/inventory.js"></script>
+</body>
+</html>
