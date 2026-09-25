@@ -11,7 +11,7 @@
   const isOwner = () => S.ag && WL.W.address === S.ag.owner;
   const sol = h => h.find(x => x.symbol === 'SOL');
 
-  if (!asset) { $('#pName').textContent = 'No agent'; $('#headMsg').innerHTML = '<div class="note bad">This link has no agent address in it. <a href="/#registry">Browse the registry →</a></div>'; return; }
+  if (!asset) { $('#pName').textContent = 'No agent'; $('#headMsg').innerHTML = '<div class="note bad">This link has no agent address in it. <a href="/#hall">Browse the hall →</a></div>'; return; }
 
   async function load(first) {
     const r = await api('agent?a=' + asset);

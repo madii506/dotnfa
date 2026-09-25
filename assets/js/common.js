@@ -37,6 +37,36 @@
     const sweep = () => $$('.rv:not(.vis)').forEach(el => { const r = el.getBoundingClientRect(); if (r.top < innerHeight * .95) el.classList.add('vis'); });
     addEventListener('hashchange', sweep); setTimeout(sweep, 400);
   }
+
+  // the pixel wordmark ".nfa": drawn from a tiny bitmap so it stays crisp and lowercase at any size
+  const GLYPH = {
+    '.': ['...', '...', '...', '...', '...', '...', '...', '...', '###', '###', '###'],
+    n: ['.......', '.......', '.......', '.......', '##.###.', '#######', '###..##', '##...##', '##...##', '##...##', '##...##'],
+    f: ['..####', '.#####', '.##...', '.##...', '######', '######', '.##...', '.##...', '.##...', '.##...', '.##...'],
+    a: ['.......', '.......', '.......', '.......', '.#####.', '.######', '.....##', '.######', '##...##', '#######', '.######'],
+  };
+  function logo(cv, unit = 12, { ink = '#111113', shade = '#c8f24a', text = '.nfa' } = {}) {
+    if (!cv) return;
+    const gl = [...text].map(c => GLYPH[c]).filter(Boolean);
+    const w = gl.reduce((n, g) => n + g[0].length + 2, 0) - 2, h = 11;
+    cv.width = (w + 1) * unit; cv.height = (h + 1) * unit;
+    const g = cv.getContext('2d'); g.clearRect(0, 0, cv.width, cv.height);
+    const plot = (dx, dy, col) => { g.fillStyle = col; let x0 = 0; for (const G of gl) { G.forEach((row, y) => [...row].forEach((c, x) => { if (c === '#') g.fillRect((x0 + x + dx) * unit, (y + dy) * unit, unit, unit); })); x0 += G[0].length + 2; } };
+    if (shade) plot(1, 1, shade); plot(0, 0, ink);
+    cv.style.width = cv.width + 'px'; cv.style.height = cv.height + 'px';
+  }
+  // mobile menu: the ☰ button opens a sheet with the nav links (and the wallet button stays in the bar)
+  function nav() {
+    const b = $('.nav .burger'); if (!b) return;
+    b.onclick = () => {
+      const box = document.createElement('div'); box.className = 'modal menu';
+      box.innerHTML = `<div class="sheet"><button class="x" aria-label="Close">×</button><h3>Menu</h3>${$$('.nav .links a, .nav .more a').map(a => `<a class="wbtn" href="${esc(a.getAttribute('href'))}"${a.target ? ' target="_blank" rel="noopener"' : ''}>${esc(a.textContent)}<small class="det">▶</small></a>`).join('')}</div>`;
+      document.body.appendChild(box); requestAnimationFrame(() => box.classList.add('on'));
+      const close = () => { box.classList.remove('on'); setTimeout(() => box.remove(), 200); };
+      box.onclick = e => { if (e.target === box || e.target.closest('.x') || e.target.closest('a')) close(); };
+    };
+  }
+  $$('canvas[data-logo]').forEach(c => logo(c, +c.dataset.logo || 3, { shade: c.dataset.shade === 'none' ? null : '#c8f24a' }));
   // the site's own config (ca / x) — rows render only when set
   const CFG = { ca: '', x: '' };
   function scam() {
@@ -45,5 +75,6 @@
       : '<b>$NFA</b> IS NOT LIVE YET — ANY CA POSTED BEFORE IT SHOWS HERE IS NOT US';
     const b = $('#scamCopy'); if (b) b.onclick = () => copy(CFG.ca, 'Contract address copied');
   }
-  window.I = { $, $$, esc, api, fmt, toast, copy, store, countTo, reveal, CFG, scam };
+  window.I = { $, $$, esc, api, fmt, toast, copy, store, countTo, reveal, CFG, scam, logo, nav };
+  nav();
 })();
