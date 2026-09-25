@@ -160,8 +160,9 @@ input[type=range]{width:100%;accent-color:var(--ink)}
 .tabs button.on{color:var(--ink);border-bottom-color:var(--ink)}
 .look{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;margin-bottom:18px}
 .wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
-.ag{display:grid;justify-items:center;gap:6px;padding:16px 10px 14px;border:1px solid var(--line2);border-radius:16px;background:#fbfaf7;text-decoration:none;transition:transform .2s,box-shadow .2s,border-color .2s;min-width:0;opacity:0;transform:translateY(8px);animation:rise .5s forwards}
-.ag:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(17,17,19,.1);border-color:var(--ink)}
+.ag{display:grid;justify-items:center;gap:6px;padding:10px 6px;text-decoration:none;transition:transform .2s;min-width:0;opacity:0;transform:translateY(8px);animation:rise .5s forwards}
+.ag:hover{transform:translateY(-4px)}
+.ag:hover b{text-decoration:underline;text-underline-offset:3px}
 .ag canvas{width:88px;height:120px;image-rendering:pixelated}
 .ag b{font:600 16px/1.2 var(--serif);text-align:center;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ag small{font:600 11px/1 var(--mono);color:var(--mute)}
