@@ -66,7 +66,7 @@
       box.onclick = e => { if (e.target === box || e.target.closest('.x') || e.target.closest('a')) close(); };
     };
   }
-  $$('canvas[data-logo]').forEach(c => logo(c, +c.dataset.logo || 3, { shade: c.dataset.shade === 'none' ? null : '#c8f24a' }));
+  $$('canvas[data-logo]').forEach(c => logo(c, +c.dataset.logo || 3, { shade: c.dataset.shade === 'none' ? null : '#c8f24a', ink: c.dataset.ink || '#111113' }));
   // the site's own config (ca / x) — rows render only when set
   const CFG = { ca: '', x: '' };
   function scam() {

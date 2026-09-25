@@ -180,5 +180,5 @@
     return canvas;
   }
 
-  return { W, H, TRAITS, LABEL, BODY, EYE, fromSeed, draw, paint, odds, clean, fnv };
+  return { W, H, TRAITS, LABEL, BODY, EYE, WEIGHT, fromSeed, draw, paint, odds, clean, fnv };
 });

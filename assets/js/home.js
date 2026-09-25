@@ -36,8 +36,9 @@
 
   /* ---------- the hero agent: pixel agent on a pixel pedestal ---------- */
   const hero = $('.hero-agent'), cv = $('#agentCv'), ped = $('#pedestal'), bub = $('#bub');
+  S.live = false; // mint switch, read from the server below
   let blink = false, bob = 0, wave = true, talkT = 0;
-  const scale = () => innerWidth < 420 ? 4 : innerWidth < 1020 ? 5 : innerHeight < 780 ? 6 : 7;
+  const scale = () => innerWidth < 420 ? 5 : innerWidth < 1020 ? 6 : innerHeight < 760 ? 7 : 8;
   function paintAgent() {
     const s = scale();
     A.paint(cv, S.traits, { scale: s, blink, bob, pose: wave ? 'wave' : 'still', shadow: false });
@@ -62,7 +63,7 @@
     g.fillStyle = 'rgba(17,17,19,.08)'; g.fillRect(8 * s, 10 * s, 36 * s, s);
   }
   function pop() { if (reduce) return; hero.classList.remove('pop'); void hero.offsetWidth; hero.classList.add('pop'); }
-  function say(text, ms = 3600) { bub.textContent = text; bub.classList.add('on'); clearTimeout(talkT); talkT = setTimeout(() => bub.classList.remove('on'), ms); }
+  function say(text, ms = 3600) { if (!bub) return; bub.textContent = text; bub.classList.add('on'); clearTimeout(talkT); talkT = setTimeout(() => bub.classList.remove('on'), ms); }
   let tick = 0;
   if (!reduce) setInterval(() => {
     if (document.hidden) return; tick++; bob = tick % 2;
@@ -79,8 +80,7 @@
   }
   function refresh(line, doPop = true) {
     paintAgent(); if (doPop) pop();
-    $('#plateName').textContent = S.name || 'Your agent';
-    rarity(); robots(); summary(); save();
+    rarity(); robots(); summary(); save(); if (window.__parts) window.__parts();
     if (line) say(line);
   }
 
@@ -214,8 +214,8 @@
   }
   const mintBtn = $('#mintBtn');
   const mintLabel = () => {
-    mintBtn.disabled = S.busy;
-    mintBtn.textContent = S.busy ? '… WORKING' : WL.W.address ? '▶ MINT THIS AGENT' : '▶ CONNECT WALLET TO MINT';
+    mintBtn.disabled = S.busy || !S.live;
+    mintBtn.textContent = !S.live ? 'MINT NOT LIVE YET' : S.busy ? '… WORKING' : WL.W.address ? '▶ MINT THIS AGENT' : '▶ CONNECT WALLET TO MINT';
     const w = $('#wrow');
     w.innerHTML = WL.W.address
       ? `<span class="on"><i></i>${esc(fmt.short(WL.W.address))}</span><button class="pbtn ghost sm" type="button" data-w="menu">Switch</button>`
@@ -252,11 +252,18 @@
     }
     S.busy = false; mintLabel();
   }
-    mintBtn.onclick = () => WL.W.address ? mint() : WL.picker();
-  $('#navMint').onclick = e => { e.preventDefault(); tab('mint', false); $('#create').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); say(TAB_SAY.mint); };
+    mintBtn.onclick = () => { if (!S.live) return; WL.W.address ? mint() : WL.picker(); };
+  api('meta?k=site').then(r => {
+    S.live = !!(r && r.ok && r.mintLive);
+    $('#hMint').textContent = S.live ? 'LIVE' : 'NOT LIVE YET';
+    $('#mintHint').textContent = S.live ? 'No .nfa fee. You pay Solana\'s rent for the NFT and its registry entry, plus the network fee. It\'s dry-run on mainnet first.'
+      : 'Mint isn\'t live yet. Build your agent now; the draft stays saved in this browser. When mint opens, this button turns on.';
+    mintLabel();
+  });
+  $('#navMint').onclick = e => { e.preventDefault(); tab('look', false); $('#create').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); say(TAB_SAY.mint); };
 
   /* ---------- HALL ---------- */
-  let view = 'here';
+  let view = 'all';
   function agx(x, i) {
     const o = A.odds(x.traits), t = tier(o);
     const c = document.createElement('a'); c.className = 'agx'; c.href = '/a/' + x.asset; c.style.animationDelay = (i * 35) + 'ms';
@@ -269,7 +276,8 @@
     const r = await api(`registry?v=${view}${opts.owner ? '&owner=' + opts.owner : ''}`);
     if (!r.ok) { wall.innerHTML = `<div class="empty"><b>Couldn't read the chain.</b>${esc(r.msg || '')} <button class="pbtn sm" type="button" id="retry">Retry</button></div>`; $('#retry').onclick = () => loadWall(opts); return; }
     if (!r.items.length) {
-      wall.innerHTML = view === 'here' && !opts.owner ? `<div class="empty"><b>No agents minted here yet.</b>The first one in the hall could be yours. Mints are found through <a href="https://solscan.io/account/${r.anchor}" target="_blank" rel="noopener">the anchor address ↗</a>.</div>`
+      wall.innerHTML = view === 'here' && !opts.owner ? `<div class="empty"><b>No agents minted here yet.</b>${S.live ? 'The first one in the hall could be yours.' : 'Mint on .nfa isn\'t live yet.'} Mints are found through <a href="https://solscan.io/account/${r.anchor}" target="_blank" rel="noopener">the anchor address ↗</a>.</div>`
+        : view === 'here' ? `<div class="empty"><b>Nothing here yet.</b>Mint on .nfa isn't live yet.</div>`
         : `<div class="empty"><b>Nothing found.</b>${opts.owner ? 'That wallet owns no agents here.' : 'No recent registrations came back.'}</div>`;
       return;
     }
@@ -289,6 +297,44 @@
     const m = location.hash.match(/owner=([1-9A-HJ-NP-Za-km-z]{32,44})/); loadWall(m ? { owner: m[1] } : {});
   }, { rootMargin: '300px' });
   io.observe($('#hall'));
+
+
+  /* ---------- facts strip: math from the trait weights, plus one live read of the registry ---------- */
+  const KEYS = Object.keys(A.TRAITS);
+  const LOOKS = KEYS.reduce((n, k) => n * A.TRAITS[k].length, 1);
+  const rarest = {}; KEYS.forEach(k => { const w = A.WEIGHT[k]; rarest[k] = A.TRAITS[k][w.indexOf(Math.min(...w))]; });
+  $('#hLooks').textContent = fmt.int(LOOKS);
+  $('#hRare').textContent = '1 in ' + fmt.int(A.odds(rarest));
+  api('registry?v=all').then(r => { const t = r && r.ok && r.items.length ? Math.max(...r.items.map(x => x.at || 0)) : 0; $('#hReg').textContent = t ? fmt.ago(t) : '—'; });
+
+  /* ---------- parts: every trait value with its drop rate; tap to put it on ---------- */
+  const PG = [['head', 'HEAD'], ['body', 'BODY'], ['eyes', 'EYES'], ['eye', 'EYE COLOUR'], ['top', 'ON TOP'], ['extra', 'EXTRA']];
+  let pk = 'head';
+  $('#partTabs').innerHTML = PG.map(([k, t]) => `<button type="button" data-k="${k}" class="${k === pk ? 'on' : ''}">${t}</button>`).join('');
+  const rate = (k, v) => { const w = A.WEIGHT[k], i = A.TRAITS[k].indexOf(v); return w[i] / w.reduce((a, b) => a + b, 0); };
+  const rtier = p => p < .06 ? 'legendary' : p < .1 ? 'epic' : p < .15 ? 'rare' : p < .25 ? 'uncommon' : 'common';
+  function parts() {
+    const g = $('#partGrid'); g.innerHTML = '';
+    A.TRAITS[pk].forEach((v, i) => {
+      const t = { ...S.traits, [pk]: v }, p = rate(pk, v), on = S.traits[pk] === v;
+      const el = document.createElement('button'); el.type = 'button'; el.className = 'agx part' + (on ? ' on' : ''); el.style.animationDelay = (i * 30) + 'ms';
+      el.innerHTML = `<canvas></canvas><i class="floor"></i><b>${esc(label(pk, v))}</b><span class="rt r-${rtier(p)}">${(p * 100).toFixed(1)}% DROP</span><small>${on ? 'EQUIPPED' : 'TAP TO EQUIP'}</small>`;
+      A.paint(el.querySelector('canvas'), t, { scale: 2, shadow: false, pose: 'still' });
+      el.onclick = () => { S.traits[pk] = v; selUi(); refresh(); parts(); tab('look', false); $('#create').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); };
+      g.appendChild(el);
+    });
+  }
+  $('#partTabs').onclick = e => { const b = e.target.closest('button'); if (!b) return; pk = b.dataset.k; $$('#partTabs button').forEach(x => x.classList.toggle('on', x === b)); parts(); };
+  // share of all random rolls that land in each tier (exact, over all 43,200 looks)
+  const share = {};
+  (function rec(i, t, p) {
+    if (i === KEYS.length) { const o = A.odds(t.eye === 'lime' && t.body === 'lime' ? { ...t, eye: 'white' } : t); const k = tier(o); share[k] = (share[k] || 0) + p; return; }
+    const k = KEYS[i]; A.TRAITS[k].forEach(v => rec(i + 1, { ...t, [k]: v }, p * rate(k, v)));
+  })(0, {}, 1);
+  const RANGE = { common: 'under 1 in 20,000', uncommon: '1 in 20k – 50k', rare: '1 in 50k – 100k', epic: '1 in 100k – 250k', legendary: '1 in 250,000+' };
+  $('#tiers').innerHTML = `<div class="th">RARITY TIERS<small>share of random rolls</small></div>` + TIERS.map(([, t]) => `<div class="tr r-${t}"><b>${t.toUpperCase()}</b><span class="bar2"><i style="width:${Math.max(2, share[t] * 100 / .5)}%"></i></span><em>${(share[t] * 100).toFixed(1)}%</em><small>${RANGE[t]}</small></div>`).join('');
+  let partsKey = JSON.stringify(S.traits); parts();
+  window.__parts = () => { const j = JSON.stringify(S.traits); if (j !== partsKey) { partsKey = j; parts(); } };
 
   /* ---------- nav highlight ---------- */
   const links = $$('.nav .links a');
