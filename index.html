@@ -16,9 +16,19 @@
 <link rel="preload" href="/assets/fonts/pixelify.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/css/nfa.css">
 <link rel="stylesheet" href="/assets/css/game.css">
-<script>document.documentElement.classList.add('js')</script>
+<script>document.documentElement.classList.add('js');try{if(sessionStorage.getItem('nfa.boot'))document.documentElement.classList.add('noboot')}catch(e){}</script>
 </head>
 <body class="game">
+<div id="boot" aria-hidden="true">
+  <div class="bt">
+    <canvas id="bootLogo"></canvas>
+    <canvas id="bootAgent"></canvas>
+    <div class="bbar"><i id="bootBar"></i></div>
+    <pre id="bootLog"></pre>
+    <button id="bootGo" type="button" tabindex="-1">▶ PRESS START</button>
+  </div>
+  <canvas id="bootWipe"></canvas>
+</div>
 <nav class="nav" aria-label="Main">
   <a class="mark" href="/" aria-label=".nfa home"><canvas id="navmark" width="44" height="60"></canvas><canvas data-logo="2" aria-hidden="true"></canvas></a>
   <div class="links"><a href="#create">Create</a><a href="#quests">Quests</a><a href="#parts">Parts</a><a href="#stack">Stack</a><a href="#hall">Hall</a><a href="/inventory">Inventory</a><a href="#faq">FAQ</a></div>
@@ -77,7 +87,7 @@
     <div><span>POSSIBLE LOOKS</span><b id="hLooks">—</b></div>
     <div><span>RAREST LOOK</span><b id="hRare">—</b></div>
     <div><span>RENT PER AGENT</span><b>≈ 0.006 SOL</b></div>
-    <div><span>LATEST METAPLEX AGENT</span><b id="hReg">—</b></div>
+    <div><span>PARTS</span><b id="hParts">—</b></div>
   </section>
 
   <section class="band" id="quests">
@@ -131,8 +141,7 @@
 
   <section class="band" id="hall">
     <div class="wrap2">
-      <div class="head2 rv"><span class="k">HALL OF AGENTS</span><h2>Every agent, read from the chain.</h2></div>
-      <div class="ptabs inline" id="hallTabs" role="tablist"><button class="on" data-v="all" type="button">Every registered agent</button><button data-v="here" type="button">Minted on .nfa</button></div>
+      <div class="head2 rv"><span class="k">HALL OF AGENTS</span><h2>Every .nfa agent, read from the chain.</h2><p class="sub2">Only agents minted on .nfa show here, found through the .nfa anchor address on Solana. Nothing is listed until mint opens.</p></div>
       <div class="look2"><input class="pin" id="lookIn" placeholder="Agent address or owner wallet" autocomplete="off" aria-label="Look up"><button class="pbtn" id="lookBtn" type="button">Look up</button></div>
       <div id="wall"></div>
     </div>
@@ -149,26 +158,15 @@
       <details><summary>How do I connect on my phone?</summary><div class="a">Tap Connect wallet, then Open in Phantom or Open in Solflare. The site opens inside the wallet's own browser, where connecting works.</div></details>
       <details><summary>Where do I see my agents?</summary><div class="a">In your inventory. Connect Phantom or Solflare (top right) and it reads what your wallet really holds.</div></details>
       <details><summary>Is .nfa part of Metaplex?</summary><div class="a">No. .nfa is independent. It uses Metaplex's open programs (Core and the Agent Registry) and Jupiter's public API.</div></details>
-      <details><summary>Is this financial advice?</summary><div class="a">It's in the name: not financial advice. Crypto can go to zero. Only put in what you can lose.</div></details>
     </div>
   </section>
 </main>
 
-<footer class="foot2">
-  <div class="wrap2">
-    <div class="fcols">
-      <div class="fbrand"><canvas data-logo="4" data-ink="#f7f6f2" aria-hidden="true"></canvas><p>Non-fungible agent. Also not financial advice.</p></div>
-      <div><b>PLAY</b><a href="#create">Create</a><a href="#hall">Hall</a><a href="/inventory">Inventory</a></div>
-      <div><b>LEARN</b><a href="#quests">Quests</a><a href="#parts">Parts</a><a href="#stack">Stack</a><a href="#faq">FAQ</a></div>
-      <div><b>ON-CHAIN</b><a href="https://solscan.io/account/CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d" target="_blank" rel="noopener">Metaplex Core ↗</a><a href="https://solscan.io/account/1DREGFgysWYxLnRnKQnwrxnJQeSMk2HmGaC6whw2B2p" target="_blank" rel="noopener">Agent Registry ↗</a><a href="https://solscan.io/account/BdTMq5DaUn8EvNjmgjyYkwZhbTgQPuhu8kuWi3zgb27y" target="_blank" rel="noopener">.nfa anchor ↗</a></div>
-    </div>
-    <p class="fine2">.nfa is independent and not affiliated with Metaplex, Jupiter, Phantom or Solflare. Crypto can go to zero. Not financial advice.</p>
-  </div>
-</footer>
 
 <script src="/assets/js/common.js"></script>
 <script src="/assets/js/agentpx.js"></script>
 <script src="/assets/js/wallet.js"></script>
+<script src="/assets/js/boot.js"></script>
 <script src="/assets/js/home.js"></script>
 </body>
 </html>
