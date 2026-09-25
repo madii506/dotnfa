@@ -319,25 +319,25 @@ button.agx{background:none;border:0;padding:0;cursor:pointer;color:var(--ink)}
 }
 @media (max-width:620px){#partTabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%}#partTabs button{padding:0 4px;font-size:12px;border-bottom:3px solid var(--ink)}#partTabs button:nth-child(3n){border-right:0}#partTabs button:nth-child(n+4){border-bottom:0}}
 
-/* ---------- intro boot screen ---------- */
-#boot{position:fixed;inset:0;z-index:200;background:#111113;color:var(--paper);display:grid;place-items:center;cursor:pointer;animation:bootsafe .3s 7s forwards}
+/* ---------- intro boot screen (white) ---------- */
+#boot{position:fixed;inset:0;z-index:200;background:var(--paper);color:var(--ink);display:grid;place-items:center;cursor:pointer;animation:bootsafe .3s 7s forwards}
 .noboot #boot{display:none}
 .booting body{overflow:hidden}
-#boot::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 2px,transparent 2px 4px);animation:flick 3s steps(2) infinite}
+#boot::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(17,17,19,.035) 0 2px,transparent 2px 4px);animation:flick 3s steps(2) infinite}
 #boot .bt{display:grid;justify-items:center;gap:16px;padding:20px;position:relative;z-index:1}
 #bootLogo,#bootAgent{image-rendering:pixelated;display:block}
 #bootAgent{margin:6px 0 -4px}
-#boot .bbar{width:min(320px,76vw);height:18px;border:3px solid var(--paper);padding:2px}
+#boot .bbar{width:min(320px,76vw);height:20px;border:3px solid var(--ink);padding:2px;background:#fffdf7;box-shadow:4px 4px 0 var(--ink)}
 #boot .bbar i{display:block;height:100%;width:0;background:repeating-linear-gradient(90deg,var(--lime) 0 10px,transparent 10px 12px)}
-#bootLog{margin:0;min-height:5.6em;width:min(320px,76vw);font:400 10px/1.4 var(--tiny);letter-spacing:.6px;color:#bdbbb3;white-space:pre}
-#bootGo{background:none;border:0;color:var(--lime);font:700 18px/1 var(--px);letter-spacing:1px;opacity:0;cursor:pointer}
-#boot.ready #bootGo{opacity:1;animation:blinkt .5s steps(2) infinite}
+#bootLog{margin:4px 0 0;min-height:5.6em;width:min(320px,76vw);font:400 10px/1.4 var(--tiny);letter-spacing:.6px;color:var(--mute);white-space:pre}
+#bootGo{background:var(--lime);border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink);color:var(--ink);font:700 17px/1 var(--px);letter-spacing:1px;padding:10px 16px;opacity:0;cursor:pointer}
+#boot.ready #bootGo{opacity:1;animation:blinkt .6s steps(2) infinite}
 #bootWipe{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated;display:none;z-index:3}
 #boot.wipe{background:transparent}
 #boot.wipe .bt,#boot.wipe::after{display:none}
 #boot.wipe #bootWipe{display:block}
 #boot.out{opacity:0;transition:opacity .25s}
-@keyframes blinkt{50%{opacity:0}}
+@keyframes blinkt{50%{opacity:.25}}
 @keyframes flick{50%{opacity:.6}}
 @keyframes bootsafe{to{opacity:0;visibility:hidden}}
 @media (max-width:500px){#bootLog{font-size:8px}}
