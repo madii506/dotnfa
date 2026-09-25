@@ -6,7 +6,7 @@
   if (document.documentElement.classList.contains('noboot')) { el.remove(); return; }
   const A = window.AgentPx, reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.documentElement.classList.add('booting');
-  I.logo(document.getElementById('bootLogo'), innerWidth < 500 ? 6 : 8, { ink: '#f7f6f2', shade: '#c8f24a' });
+  I.logo(document.getElementById('bootLogo'), innerWidth < 500 ? 6 : 8, { ink: '#111113', shade: '#c8f24a' });
 
   // the agent from the saved draft, if there is one
   let traits = { head: 'box', body: 'white', eyes: 'dots', eye: 'lime', top: 'ball', extra: 'card' };
@@ -36,9 +36,9 @@
     if (finished) return; finished = true; cancelAnimationFrame(raf); done();
     removeEventListener('keydown', leave); el.removeEventListener('click', leave);
     if (reduce) { el.classList.add('out'); setTimeout(end, 250); return; }
-    // pixel dissolve: cover with ink blocks, then knock them out in random order
+    // pixel dissolve: cover with paper blocks, then knock them out in random order
     const w = document.getElementById('bootWipe'), B = 28, W = Math.ceil(innerWidth / B), H = Math.ceil(innerHeight / B);
-    w.width = W; w.height = H; const x = w.getContext('2d'); x.fillStyle = '#111113'; x.fillRect(0, 0, W, H);
+    w.width = W; w.height = H; const x = w.getContext('2d'); x.fillStyle = '#f7f6f2'; x.fillRect(0, 0, W, H);
     el.classList.add('wipe');
     const cells = []; for (let i = 0; i < W * H; i++) cells.push(i);
     for (let i = cells.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [cells[i], cells[j]] = [cells[j], cells[i]]; }
