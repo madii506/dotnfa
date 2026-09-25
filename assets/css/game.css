@@ -245,3 +245,76 @@ body.game{background:var(--paper)}
   #walletBtn{padding:0 10px;font-size:13px}
 }
 @media (max-width:380px){.game .nav .mark canvas#navmark{display:none}}
+
+/* ---------- v3: the NFT takes the hero spot; more sections ---------- */
+.podium{grid-template-columns:1fr;justify-items:center;align-items:center}
+.hero-agent{padding-top:0}
+.hero-agent .rarity{margin-top:16px}
+.screen .creator{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+
+/* facts strip */
+.hud{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:3px solid var(--ink);background:var(--ink);gap:3px}
+.hud div{background:var(--paper);padding:18px 22px;display:grid;gap:8px;min-width:0}
+.hud span{font:400 10px/1 var(--tiny);letter-spacing:1px;color:var(--mute)}
+.hud b{font:700 24px/1.1 var(--px);overflow-wrap:anywhere}
+.hud div:first-child b{color:var(--ink);background:var(--lime);justify-self:start;padding:2px 6px}
+
+.sub2{margin:14px 0 0;font-size:18px;line-height:1.45;color:var(--ink2);max-width:60ch}
+
+/* parts */
+.parts{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:26px 10px;margin:8px 0 40px}
+button.agx{background:none;border:0;padding:0;cursor:pointer;color:var(--ink)}
+.agx.part.on .floor{background:var(--lime);box-shadow:0 3px 0 var(--ink)}
+.agx.part.on small{color:var(--ink);font-weight:700}
+.tiers{border:3px solid var(--ink);background:#fffdf7;box-shadow:6px 6px 0 var(--ink);padding:16px 18px;display:grid;gap:10px;max-width:760px}
+.tiers .th{display:flex;justify-content:space-between;align-items:baseline;font:400 12px/1 var(--tiny);letter-spacing:1px}
+.tiers .th small{font:400 10px/1 var(--tiny);color:var(--mute)}
+.tiers .tr{display:grid;grid-template-columns:110px minmax(0,1fr) 56px 150px;gap:12px;align-items:center}
+.tiers .tr b{font:700 12px/1 var(--px);letter-spacing:.6px;color:#fff;background:#8b8a83;border:2px solid var(--ink);padding:5px 6px;text-align:center}
+.tiers .r-uncommon b{background:#1f9d55}.tiers .r-rare b{background:#2f6bff}.tiers .r-epic b{background:#8b3dff}.tiers .r-legendary b{background:#ff9d00;color:var(--ink)}
+.bar2{height:14px;border:3px solid var(--ink);background:var(--paper2);position:relative}
+.bar2 i{position:absolute;left:0;top:0;bottom:0;background:repeating-linear-gradient(90deg,var(--ink) 0 8px,#34343a 8px 10px)}
+.tiers em{font:700 15px/1 var(--px);font-style:normal;text-align:right}
+.tiers .tr small{font:400 10px/1.2 var(--tiny);color:var(--mute)}
+
+/* the stack */
+.flow{display:grid;grid-template-columns:minmax(0,1fr) 28px minmax(0,1fr) 28px minmax(0,1fr) 28px minmax(0,1fr);align-items:stretch}
+.flow .arw2{display:grid;place-items:center;font:700 20px/1 var(--px);font-style:normal}
+.node{border:3px solid var(--ink);background:#fffdf7;box-shadow:5px 5px 0 var(--ink);padding:14px;display:grid;gap:8px;align-content:start;min-width:0}
+.node b{font:400 11px/1 var(--tiny);letter-spacing:1px}
+.node span{font:500 15px/1.4 var(--px);color:var(--ink2)}
+.node a{font:500 12px/1 var(--mono);color:var(--ink)}
+.node.nft b,.node.reg b{background:var(--lime);justify-self:start;padding:3px 5px}
+.flow2{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:22px}
+.flow2 .node{box-shadow:none;border-style:dashed;background:transparent}
+.works{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:16px;margin-top:34px}
+.works .col{border:3px solid var(--ink);padding:16px 18px;background:#fffdf7}
+.works h3{margin:0 0 10px;font:400 12px/1 var(--tiny);letter-spacing:1px}
+.works ul{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.works li{font:600 17px/1.3 var(--px);display:grid;grid-template-columns:22px 1fr;gap:8px}
+.works li::before{content:"✓";width:18px;height:18px;border:2px solid var(--ink);background:var(--lime);display:grid;place-items:center;font:700 11px/1 var(--px)}
+.works .no{background:var(--paper2)}
+.works .no li{color:var(--mute)}
+.works .no li::before{content:"…";background:var(--paper3)}
+
+/* footer */
+.foot2{background:var(--ink);color:var(--paper);padding:56px 28px 34px;border-top:3px solid var(--ink)}
+.fcols{display:grid;grid-template-columns:minmax(0,1.6fr) repeat(3,minmax(0,1fr));gap:24px}
+.fcols>div{display:grid;gap:10px;align-content:start}
+.fcols b{font:400 11px/1 var(--tiny);letter-spacing:1px;color:var(--lime)}
+.fcols a{color:var(--paper);text-decoration:none;font:600 16px/1.2 var(--px)}
+.fcols a:hover{color:var(--lime)}
+.fbrand canvas{image-rendering:pixelated}
+.fbrand p{margin:6px 0 0;color:#bdbbb3;font-size:16px}
+.fine2{margin:40px 0 0;padding-top:18px;border-top:2px dashed #3a3a42;color:#8b897f;font-size:14px}
+
+@media (max-width:1100px){.hud{grid-template-columns:repeat(3,minmax(0,1fr))}.flow{grid-template-columns:1fr;gap:8px}.flow .arw2{transform:rotate(90deg);height:26px}}
+@media (max-width:1020px){.screen .creator{grid-template-columns:1fr}}
+@media (max-width:860px){.fcols{grid-template-columns:1fr 1fr}.fbrand{grid-column:1/-1}.works{grid-template-columns:1fr}.flow2{grid-template-columns:1fr}}
+@media (max-width:620px){
+  .hud{grid-template-columns:1fr 1fr}.hud div:last-child{grid-column:1/-1}.hud div{padding:14px}.hud b{font-size:19px}
+  .tiers .tr{grid-template-columns:96px minmax(0,1fr) 48px}.tiers .tr small{display:none}
+  .parts{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px 6px}
+  .sub2{font-size:16px}
+}
+@media (max-width:620px){#partTabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%}#partTabs button{padding:0 4px;font-size:12px;border-bottom:3px solid var(--ink)}#partTabs button:nth-child(3n){border-right:0}#partTabs button:nth-child(n+4){border-bottom:0}}
