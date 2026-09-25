@@ -1,11 +1,14 @@
 // Wallets: Phantom, Backpack, Solflare. .nfa only asks them to sign; it never sees a key.
 (function () {
   const { api, toast, store } = window.I;
-  const PROVIDERS = () => [
-    { id: 'phantom', name: 'Phantom', get: () => (window.phantom && window.phantom.solana) || (window.solana && window.solana.isPhantom && window.solana) },
-    { id: 'backpack', name: 'Backpack', get: () => window.backpack && (window.backpack.solana || window.backpack) },
-    { id: 'solflare', name: 'Solflare', get: () => window.solflare && window.solflare.isSolflare && window.solflare },
-  ].map(p => ({ ...p, p: p.get() })).filter(p => p.p);
+  const ALL = [
+    { id: 'phantom', name: 'Phantom', url: 'https://phantom.com/download', get: () => (window.phantom && window.phantom.solana) || (window.solana && window.solana.isPhantom && window.solana) },
+    { id: 'solflare', name: 'Solflare', url: 'https://solflare.com/download', get: () => window.solflare && window.solflare.isSolflare && window.solflare },
+    { id: 'backpack', name: 'Backpack', optional: true, get: () => window.backpack && (window.backpack.solana || window.backpack) },
+  ];
+  const PROVIDERS = () => ALL.map(p => ({ ...p, p: p.get() })).filter(p => p.p);
+  // the two we always offer, installed or not, plus any other installed wallet
+  const OFFER = () => ALL.map(p => ({ ...p, p: p.get() })).filter(p => !p.optional || p.p);
   const W = { provider: null, address: null, id: null, listeners: [] };
   const emit = () => W.listeners.forEach(f => { try { f(W); } catch {} });
   async function loadWeb3() {
@@ -43,10 +46,10 @@
     return 'pending';
   }
   function picker(onDone) {
-    const list = PROVIDERS();
+    const list = OFFER();
     const box = document.createElement('div'); box.className = 'modal'; box.setAttribute('role', 'dialog');
     box.innerHTML = `<div class="sheet"><button class="x" aria-label="Close">×</button><h3>Connect a wallet</h3>
-      ${list.length ? list.map(p => `<button class="wbtn" data-id="${p.id}"><span class="wlogo ${p.id}"></span>${p.name}</button>`).join('') : '<p style="margin:0;color:var(--ink2)">No Solana wallet found in this browser. Install Phantom, Backpack or Solflare, then reload.</p>'}
+      ${list.map(p => p.p ? `<button class="wbtn" data-id="${p.id}"><span class="wlogo ${p.id}"></span>${p.name}<small class="det">detected</small></button>` : `<a class="wbtn" href="${p.url}" target="_blank" rel="noopener"><span class="wlogo ${p.id}"></span>${p.name}<small class="det">install ↗</small></a>`).join('')}
       <p class="fine">Your wallet signs; .nfa never sees your keys. Every transaction is dry-run on mainnet before your wallet sees it.</p></div>`;
     document.body.appendChild(box); requestAnimationFrame(() => box.classList.add('on'));
     const close = () => { box.classList.remove('on'); setTimeout(() => box.remove(), 200); };
@@ -61,12 +64,12 @@
     el.onclick = () => {
       if (!W.address) return picker();
       const box = document.createElement('div'); box.className = 'modal';
-      box.innerHTML = `<div class="sheet"><button class="x" aria-label="Close">×</button><h3>${I.esc(I.fmt.short(W.address))}</h3><button class="wbtn" data-a="mine">My agents</button><button class="wbtn" data-a="copy">Copy address</button><button class="wbtn" data-a="out">Disconnect</button></div>`;
+      box.innerHTML = `<div class="sheet"><button class="x" aria-label="Close">×</button><h3>${I.esc(I.fmt.short(W.address))}</h3><button class="wbtn" data-a="mine">My inventory</button><button class="wbtn" data-a="copy">Copy address</button><button class="wbtn" data-a="out">Disconnect</button></div>`;
       document.body.appendChild(box); requestAnimationFrame(() => box.classList.add('on'));
       const shut = () => { box.classList.remove('on'); setTimeout(() => box.remove(), 200); };
-      box.onclick = async e => { if (e.target === box || e.target.closest('.x')) return shut(); const a = e.target.closest('[data-a]'); if (!a) return; if (a.dataset.a === 'copy') I.copy(W.address, 'Address copied'); if (a.dataset.a === 'out') await disconnect(); if (a.dataset.a === 'mine') location.href = '/#registry?owner=' + W.address; shut(); };
+      box.onclick = async e => { if (e.target === box || e.target.closest('.x')) return shut(); const a = e.target.closest('[data-a]'); if (!a) return; if (a.dataset.a === 'copy') I.copy(W.address, 'Address copied'); if (a.dataset.a === 'out') await disconnect(); if (a.dataset.a === 'mine') location.href = '/inventory'; shut(); };
     };
     W.listeners.push(paint); paint();
   }
-  window.Wallet = { W, PROVIDERS, connect, reconnect, disconnect, sign, send, confirm, picker, button, on: f => W.listeners.push(f), loadWeb3 };
+  window.Wallet = { W, PROVIDERS, OFFER, connect, reconnect, disconnect, sign, send, confirm, picker, button, on: f => W.listeners.push(f), loadWeb3 };
 })();
