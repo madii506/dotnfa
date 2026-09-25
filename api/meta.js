@@ -1,10 +1,12 @@
 // GET /api/meta?a=<asset>          — the NFT's metadata JSON (what wallets and marketplaces read)
 // GET /api/meta?k=reg&a=<asset>    — the agent registration document the Metaplex Agent Registry points to
 // GET /api/meta?k=robots&a=<asset> — the agent's robots.txt, written from the rules stored on the NFT
+// GET /api/meta?k=site             — site switches the pages read: is mint live, official CA and X (empty until set)
 const L = require('./_lib');
 const A = require('../assets/js/agentpx.js');
 module.exports = L.wrap(async (req, res) => {
   const q = L.query(req);
+  if (q.k === 'site') { const C = require('./_config'); return L.send(res, 200, { ok: true, mintLive: C.mintLive, ca: C.ca, x: C.x }, 'public, s-maxage=30'); }
   const asset = L.needAddr(q.a, 'agent address');
   L.limit('meta:' + L.ip(req), 240, 60000);
   const site = L.origin(req);

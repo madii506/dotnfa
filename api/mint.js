@@ -4,12 +4,14 @@
 // in the registry. The server makes a fresh asset keypair, signs only the create with it, dry-runs the whole
 // thing on mainnet and hands it back. Your wallet signs and pays; nothing is sent until you approve it.
 const L = require('./_lib');
+const C = require('./_config');
 const A = require('../assets/js/agentpx.js');
 const clean = (s, n) => String(s == null ? '' : s).replace(/[\u0000-\u001f<>]/g, '').replace(/\s+/g, ' ').trim().slice(0, n);
 const BAD = /\b(nigg|fagg|retard|kike|chink|spic)\w*/i;
 
 module.exports = L.wrap(async (req, res) => {
   if (req.method !== 'POST') throw new L.Fail('method', 'POST only.', 405);
+  if (!C.mintLive) throw new L.Fail('not_live', 'Mint isn\'t live yet. Nothing was built or charged.', 403);
   L.limit('mint:' + L.ip(req), 12, 60000);
   const b = await L.body(req);
   const owner = L.needAddr(b.owner, 'wallet');
