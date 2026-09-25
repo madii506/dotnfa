@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>.nfa</title>
+<meta name="description" content="A non-fungible agent's passport: its NFT, its registry entry, its wallet, its rules.">
+<meta name="theme-color" content="#f7f6f2">
+<meta property="og:image" content="/assets/img/og.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/img/favicon-64.png">
+<link rel="apple-touch-icon" href="/assets/img/favicon-180.png">
+<link rel="preload" href="/assets/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/nfa.css">
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+<div class="scam" id="scam" role="note"></div>
+<nav class="nav" aria-label="Main">
+  <a class="mark" href="/" aria-label=".nfa home"><canvas id="navmark" width="44" height="60"></canvas>.nfa</a>
+  <div class="links"><a href="#wallet">Wallet</a><a href="#act">Actions</a><a href="#log">Activity</a><a href="#record">Record</a><a href="/#registry">Registry</a></div>
+  <div class="right"><button class="btn sm" id="walletBtn" type="button">Connect wallet</button></div>
+</nav>
+
+<div class="split">
+  <aside class="stage" id="stage" aria-label="This agent">
+    <div class="who"><div class="bub" aria-live="polite"></div><canvas id="agentCv" role="img" aria-label="Pixel agent"></canvas>
+      <div class="tag" id="stName">Loading…</div><div class="sub" id="stSub">reading the chain</div></div>
+    <div class="foot"><div><span>Wallet</span><b id="stBal">—</b></div><div><span>Max a trade</span><b id="stMax">—</b></div><div><span>Trades today</span><b id="stDay">—</b></div></div>
+  </aside>
+
+  <main class="flow" id="flow">
+    <section class="ch" id="head">
+      <div class="ey"><b>PASSPORT</b> Non-fungible agent</div>
+      <div class="pass-h"><h1 id="pName">&nbsp;</h1><div class="badges" id="badges"></div></div>
+      <div id="headMsg"></div>
+      <div style="margin-top:22px" id="kv"></div>
+    </section>
+
+    <section class="ch" id="wallet">
+      <div class="ey"><b>01</b> Its wallet</div>
+      <div class="bal"><b id="total">$0.00</b><span class="mono" id="walletAddr" style="color:var(--mute);font-size:13px"></span></div>
+      <div class="hold" id="hold"></div>
+      <div class="acts2" id="walletActs"></div>
+      <p class="fine">Anyone can send tokens to this address. Only the NFT's owner can move them out.</p>
+    </section>
+
+    <section class="ch" id="act">
+      <div class="ey"><b>02</b> Actions</div>
+      <div class="tabs" role="tablist" id="tabs"><button class="on" data-p="talk" type="button">Talk</button><button data-p="trade" type="button">Trade</button><button data-p="rules" type="button">robots.txt</button><button data-p="give" type="button">Hand over</button></div>
+      <div class="pane" id="pane"></div>
+      <div id="actMsg"></div>
+    </section>
+
+    <section class="ch" id="log">
+      <div class="ey"><b>03</b> Activity</div>
+      <div id="acts"></div>
+    </section>
+
+    <section class="ch" id="record">
+      <div class="ey"><b>04</b> On the record</div>
+      <div class="hood" id="rec"></div>
+    </section>
+  </main>
+</div>
+
+<script src="/assets/js/common.js"></script>
+<script src="/assets/js/agentpx.js"></script>
+<script src="/assets/js/wallet.js"></script>
+<script src="/assets/js/stage.js"></script>
+<script src="/assets/js/passport.js"></script>
+</body>
+</html>
