@@ -246,7 +246,7 @@ function explain(sim) {
   if (/insufficient lamports|InsufficientFundsForRent|0x1\b|insufficient funds/i.test(t)) return 'Not enough SOL for this. Top up and try again.';
   if (/AccountNotFound|could not find account/i.test(t)) return 'Your wallet has no SOL yet, so Solana can\'t pay the fee.';
   if (/slippage|0x1771|6001/i.test(t)) return 'The price moved too much while checking. Try again.';
-  if (/exceeded CUs|compute/i.test(t)) return 'The route is too heavy to run from inside the agent. Try a smaller amount or SOL/USDC.';
+  if (/exceeded CUs|Computational budget exceeded|max instruction trace length|CallDepth|call depth/i.test(t)) return 'The route is too heavy to run from inside the agent. Try a smaller amount or SOL/USDC.';
   return 'Solana rejected this in the dry run, so nothing was sent. ' + (sim.err ? '(' + sim.err.slice(0, 120) + ')' : '');
 }
 

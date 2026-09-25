@@ -107,7 +107,7 @@ async function build(req, b) {
     const v = amt(b.amount); const units = BigInt(Math.round(v * 10 ** t.decimals));
     const from = await ata(owner, t.mint), to = await ata(pda, t.mint);
     return { memo: 'nfa:fund', b: transactionBuilder()
-      .add(tb.createIdempotentAssociatedToken(umi, { payer: me, owner: L.umiPk(pda), mint: L.umiPk(t.mint) }))
+      .add(tb.createIdempotentAssociatedToken(umi, { payer: me, ata: L.umiPk(to), owner: L.umiPk(pda), mint: L.umiPk(t.mint) }))
       .add(tb.transferTokensChecked(umi, { source: L.umiPk(from), destination: L.umiPk(to), mint: L.umiPk(t.mint), authority: me, amount: units, decimals: t.decimals })), cu: 60000, what: `Send ${v} ${t.symbol} to ${ag.name}'s wallet` };
   }
   if (op === 'withdraw') {
@@ -121,7 +121,7 @@ async function build(req, b) {
     const v = amt(b.amount, h.amount); const units = BigInt(Math.round(v * 10 ** h.decimals));
     const from = h.account, to = await ata(owner, h.mint, h.program);
     return { memo: 'nfa:withdraw', b: transactionBuilder()
-      .add(tb.createIdempotentAssociatedToken(umi, { payer: me, owner: me.publicKey, mint: L.umiPk(h.mint), tokenProgram: L.umiPk(h.program) }))
+      .add(tb.createIdempotentAssociatedToken(umi, { payer: me, ata: L.umiPk(to), owner: me.publicKey, mint: L.umiPk(h.mint), tokenProgram: L.umiPk(h.program) }))
       .add(exec(tb.transferTokensChecked(umi, { source: L.umiPk(from), destination: L.umiPk(to), mint: L.umiPk(h.mint), authority: pdaSigner, amount: units, decimals: h.decimals, tokenProgram: L.umiPk(h.program) }))), cu: 120000, what: `Move ${v} ${sym} from the agent back to you` };
   }
   if (op === 'trade') {
@@ -145,7 +145,7 @@ async function build(req, b) {
     let x = transactionBuilder();
     if (topup > 0) x = x.add(tb.transferSol(umi, { source: me, destination: L.umiPk(pda), amount: sol(topup) }));
     // the agent's token accounts (you pay their rent once; they belong to the agent)
-    for (const m of new Set([from.mint, to.mint])) x = x.add(tb.createIdempotentAssociatedToken(umi, { payer: me, owner: L.umiPk(pda), mint: L.umiPk(m) }));
+    for (const m of new Set([from.mint, to.mint])) x = x.add(tb.createIdempotentAssociatedToken(umi, { payer: me, ata: L.umiPk(await ata(pda, m)), owner: L.umiPk(pda), mint: L.umiPk(m) }));
     if (from.mint === WSOL) {
       const wsol = await ata(pda, WSOL);
       x = x.add(exec(tb.transferSol(umi, { source: pdaSigner, destination: L.umiPk(wsol), amount: sol(v) }))).add(tb.syncNative(umi, { account: L.umiPk(wsol) }));
