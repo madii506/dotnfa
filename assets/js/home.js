@@ -263,7 +263,7 @@
   $('#navMint').onclick = e => { e.preventDefault(); tab('look', false); $('#create').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); say(TAB_SAY.mint); };
 
   /* ---------- HALL ---------- */
-  let view = 'all';
+  const view = 'here'; // only agents minted on .nfa
   function agx(x, i) {
     const o = A.odds(x.traits), t = tier(o);
     const c = document.createElement('a'); c.className = 'agx'; c.href = '/a/' + x.asset; c.style.animationDelay = (i * 35) + 'ms';
@@ -276,16 +276,15 @@
     const r = await api(`registry?v=${view}${opts.owner ? '&owner=' + opts.owner : ''}`);
     if (!r.ok) { wall.innerHTML = `<div class="empty"><b>Couldn't read the chain.</b>${esc(r.msg || '')} <button class="pbtn sm" type="button" id="retry">Retry</button></div>`; $('#retry').onclick = () => loadWall(opts); return; }
     if (!r.items.length) {
-      wall.innerHTML = view === 'here' && !opts.owner ? `<div class="empty"><b>No agents minted here yet.</b>${S.live ? 'The first one in the hall could be yours.' : 'Mint on .nfa isn\'t live yet.'} Mints are found through <a href="https://solscan.io/account/${r.anchor}" target="_blank" rel="noopener">the anchor address ↗</a>.</div>`
+      wall.innerHTML = view === 'here' && !opts.owner ? `<div class="empty"><b>No agents yet.</b>${S.live ? 'The first one in the hall could be yours.' : 'Mint isn\'t live yet. The hall fills from the chain once it opens.'}</div>`
         : view === 'here' ? `<div class="empty"><b>Nothing here yet.</b>Mint on .nfa isn't live yet.</div>`
         : `<div class="empty"><b>Nothing found.</b>${opts.owner ? 'That wallet owns no agents here.' : 'No recent registrations came back.'}</div>`;
       return;
     }
     const g = document.createElement('div'); g.className = 'hall';
     r.items.slice(0, 48).forEach((x, i) => g.appendChild(agx(x, i)));
-    wall.innerHTML = view === 'all' ? '<p class="hint" style="margin:0 0 18px">Real entries on Metaplex\'s Agent Registry, most from other projects (marked EXTERNAL). Their pixel look is drawn by .nfa from their address; it isn\'t their own art.</p>' : ''; wall.appendChild(g);
+    wall.innerHTML = ''; wall.appendChild(g);
   }
-  $('#hallTabs').onclick = e => { const b = e.target.closest('button'); if (!b) return; view = b.dataset.v; $$('#hallTabs button').forEach(x => x.classList.toggle('on', x === b)); loadWall(); };
   $('#lookBtn').onclick = async () => {
     const v = $('#lookIn').value.trim(); if (!/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(v)) return toast('Paste a Solana address.');
     const r = await api('agent?a=' + v);
@@ -305,7 +304,7 @@
   const rarest = {}; KEYS.forEach(k => { const w = A.WEIGHT[k]; rarest[k] = A.TRAITS[k][w.indexOf(Math.min(...w))]; });
   $('#hLooks').textContent = fmt.int(LOOKS);
   $('#hRare').textContent = '1 in ' + fmt.int(A.odds(rarest));
-  api('registry?v=all').then(r => { const t = r && r.ok && r.items.length ? Math.max(...r.items.map(x => x.at || 0)) : 0; $('#hReg').textContent = t ? fmt.ago(t) : '—'; });
+  $('#hParts').textContent = KEYS.reduce((n, k) => n + A.TRAITS[k].length, 0);
 
   /* ---------- parts: every trait value with its drop rate; tap to put it on ---------- */
   const PG = [['head', 'HEAD'], ['body', 'BODY'], ['eyes', 'EYES'], ['eye', 'EYE COLOUR'], ['top', 'ON TOP'], ['extra', 'EXTRA']];
