@@ -1,4 +1,4 @@
-// .nfa home, game edition: a character creator (look → rules → mint), a quest log and a hall of agents.
+// nfa home, game edition: a character creator (look → rules → mint), a quest log and a hall of agents.
 (() => {
   const { $, $$, esc, api, fmt, toast, store } = I;
   const A = window.AgentPx, WL = window.Wallet;
@@ -256,14 +256,14 @@
   api('meta?k=site').then(r => {
     S.live = !!(r && r.ok && r.mintLive);
     $('#hMint').textContent = S.live ? 'LIVE' : 'NOT LIVE YET';
-    $('#mintHint').textContent = S.live ? 'No .nfa fee. You pay Solana\'s rent for the NFT and its registry entry, plus the network fee. It\'s dry-run on mainnet first.'
+    $('#mintHint').textContent = S.live ? 'No nfa fee. You pay Solana\'s rent for the NFT and its registry entry, plus the network fee. It\'s dry-run on mainnet first.'
       : 'Mint isn\'t live yet. Build your agent now; the draft stays saved in this browser. When mint opens, this button turns on.';
     mintLabel();
   });
   $('#navMint').onclick = e => { e.preventDefault(); tab('look', false); $('#create').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); say(TAB_SAY.mint); };
 
   /* ---------- HALL ---------- */
-  const view = 'here'; // only agents minted on .nfa
+  const view = 'here'; // only agents minted on nfa
   function agx(x, i) {
     const o = A.odds(x.traits), t = tier(o);
     const c = document.createElement('a'); c.className = 'agx'; c.href = '/a/' + x.asset; c.style.animationDelay = (i * 35) + 'ms';
@@ -277,7 +277,7 @@
     if (!r.ok) { wall.innerHTML = `<div class="empty"><b>Couldn't read the chain.</b>${esc(r.msg || '')} <button class="pbtn sm" type="button" id="retry">Retry</button></div>`; $('#retry').onclick = () => loadWall(opts); return; }
     if (!r.items.length) {
       wall.innerHTML = view === 'here' && !opts.owner ? `<div class="empty"><b>No agents yet.</b>${S.live ? 'The first one in the hall could be yours.' : 'Mint isn\'t live yet. The hall fills from the chain once it opens.'}</div>`
-        : view === 'here' ? `<div class="empty"><b>Nothing here yet.</b>Mint on .nfa isn't live yet.</div>`
+        : view === 'here' ? `<div class="empty"><b>Nothing here yet.</b>Mint on nfa isn't live yet.</div>`
         : `<div class="empty"><b>Nothing found.</b>${opts.owner ? 'That wallet owns no agents here.' : 'No recent registrations came back.'}</div>`;
       return;
     }

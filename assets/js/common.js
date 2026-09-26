@@ -1,4 +1,4 @@
-// Shared helpers for every .nfa page.
+// Shared helpers for every nfa page.
 (function () {
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -38,14 +38,14 @@
     addEventListener('hashchange', sweep); setTimeout(sweep, 400);
   }
 
-  // the pixel wordmark ".nfa": drawn from a tiny bitmap so it stays crisp and lowercase at any size
+  // the pixel wordmark "nfa": drawn from a tiny bitmap so it stays crisp and lowercase at any size
   const GLYPH = {
     '.': ['...', '...', '...', '...', '...', '...', '...', '...', '###', '###', '###'],
     n: ['.......', '.......', '.......', '.......', '##.###.', '#######', '###..##', '##...##', '##...##', '##...##', '##...##'],
     f: ['..####', '.#####', '.##...', '.##...', '######', '######', '.##...', '.##...', '.##...', '.##...', '.##...'],
     a: ['.......', '.......', '.......', '.......', '.#####.', '.######', '.....##', '.######', '##...##', '#######', '.######'],
   };
-  function logo(cv, unit = 12, { ink = '#111113', shade = '#c8f24a', text = '.nfa' } = {}) {
+  function logo(cv, unit = 12, { ink = '#111113', shade = '#c8f24a', text = 'nfa' } = {}) {
     if (!cv) return;
     const gl = [...text].map(c => GLYPH[c]).filter(Boolean);
     const w = gl.reduce((n, g) => n + g[0].length + 2, 0) - 2, h = 11;

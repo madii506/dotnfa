@@ -1,4 +1,4 @@
-// .nfa pixel agents. One function draws any agent from its traits into a small RGBA grid.
+// nfa pixel agents. One function draws any agent from its traits into a small RGBA grid.
 // Shared by the browser (canvas) and the server (PNG for the NFT image), so both always match.
 (function (root, factory) {
   if (typeof module === 'object' && module.exports) module.exports = factory();

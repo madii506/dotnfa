@@ -1,4 +1,4 @@
-// Wallets: Phantom, Backpack, Solflare. .nfa only asks them to sign; it never sees a key.
+// Wallets: Phantom, Backpack, Solflare. nfa only asks them to sign; it never sees a key.
 (function () {
   const { api, toast, store } = window.I;
   const ALL = [
@@ -61,7 +61,7 @@
       ${list.map(p => p.p ? `<button class="wbtn" data-id="${p.id}"><span class="wlogo ${p.id}"></span>${p.name}<small class="det">detected</small></button>`
         : MOBILE && p.deep ? `<a class="wbtn" href="${p.deep(location.href)}"><span class="wlogo ${p.id}"></span>Open in ${p.name}<small class="det">app ↗</small></a>`
         : `<a class="wbtn" href="${p.url}" target="_blank" rel="noopener"><span class="wlogo ${p.id}"></span>${p.name}<small class="det">install ↗</small></a>`).join('')}
-      <p class="fine">Your wallet signs; .nfa never sees your keys. Every transaction is dry-run on mainnet before your wallet sees it.</p></div>`;
+      <p class="fine">Your wallet signs; nfa never sees your keys. Every transaction is dry-run on mainnet before your wallet sees it.</p></div>`;
     document.body.appendChild(box); requestAnimationFrame(() => box.classList.add('on'));
     const close = () => { box.classList.remove('on'); setTimeout(() => box.remove(), 200); };
     box.addEventListener('click', async e => {

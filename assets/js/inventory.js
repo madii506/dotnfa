@@ -16,7 +16,7 @@
   }
   function pick(a) {
     sel = a; stage.set(a.traits);
-    $('#stName').textContent = a.name; $('#stSub').textContent = `1 in ${fmt.int(a.odds)} · ${a.made ? 'minted on .nfa' : 'registered agent'}`;
+    $('#stName').textContent = a.name; $('#stSub').textContent = `1 in ${fmt.int(a.odds)} · ${a.made ? 'minted on nfa' : 'registered agent'}`;
     document.querySelectorAll('#agentWall .ag').forEach(el => el.classList.toggle('sel', el.dataset.a === a.asset));
     stage.say(`${a.name}, reporting. Open my passport to run me.`);
   }
@@ -39,7 +39,7 @@
     const s = r.tokens.find(t => t.symbol === 'SOL'); $('#stSol').textContent = s ? fmt.amt(s.amount) : '0';
     // agents
     if (!r.agents.length) {
-      $('#agentWall').innerHTML = `<div class="empty"><b>No agents in this wallet yet.</b>Mint on .nfa isn't live yet. You can build yours now; it's saved in this browser. <a class="btn sm" href="/#create" style="margin-top:12px">Create yours →</a></div>`;
+      $('#agentWall').innerHTML = `<div class="empty"><b>No agents in this wallet yet.</b>Mint on nfa isn't live yet. You can build yours now; it's saved in this browser. <a class="btn sm" href="/#create" style="margin-top:12px">Create yours →</a></div>`;
       stage.say('Empty inventory. Let\'s fix that.');
     } else {
       const g = document.createElement('div'); g.className = 'wall';

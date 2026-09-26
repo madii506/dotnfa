@@ -24,15 +24,15 @@
   }
   function render(first) {
     const g = S.ag;
-    document.title = g.name + ' · .nfa';
+    document.title = g.name + ' · nfa';
     stage.set(g.traits, first);
-    $('#stName').textContent = g.name; $('#stSub').textContent = `1 in ${fmt.int(g.odds)} · ${g.made ? 'minted on .nfa' : 'external agent'}`;
+    $('#stName').textContent = g.name; $('#stSub').textContent = `1 in ${fmt.int(g.odds)} · ${g.made ? 'minted on nfa' : 'external agent'}`;
     $('#stMax').textContent = '$' + g.rules.max; $('#stDay').textContent = `${g.tradesToday} / ${g.rules.daily}`;
     $('#stBal').textContent = fmt.usd(g.total);
     $('#pName').textContent = g.name;
     $('#badges').innerHTML = [
       g.registered ? '<span class="badge on">✓ Metaplex Agent Registry</span>' : '<span class="badge">Not in the Agent Registry</span>',
-      '<span class="badge on">Metaplex Core</span>', g.made ? '<span class="badge">made on .nfa</span>' : '<span class="badge">external</span>',
+      '<span class="badge on">Metaplex Core</span>', g.made ? '<span class="badge">made on nfa</span>' : '<span class="badge">external</span>',
       isOwner() ? '<span class="badge on">You own this</span>' : '',
     ].join('');
     $('#kv').innerHTML = [
