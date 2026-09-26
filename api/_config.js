@@ -3,7 +3,7 @@ module.exports = {
   name: 'nfa',
   ticker: '$NFA',
   ca: '',
-  x: '',
+  x: 'https://x.com/nfallm_',
   // mint stays off until the env var NFA_MINT_LIVE=1 is set on Vercel (and the site is redeployed)
   mintLive: process.env.NFA_MINT_LIVE === '1',
   origin: process.env.SITE_ORIGIN || '',
