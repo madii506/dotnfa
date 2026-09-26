@@ -360,7 +360,10 @@
   const extract = raw => {
     let t = raw.replace(/<!--NFA_ERROR[^>]*-->/g, '').replace(/^[\s\S]*?```(?:html)?\s*/i, m => /```/.test(m) ? '' : m).replace(/```\s*$/, '');
     const i = t.search(/<!doctype html|<html[\s>]/i); if (i < 0) return '';
-    t = t.slice(i); const j = t.toLowerCase().lastIndexOf('</html>'); return j > 0 ? t.slice(0, j + 7) : t;
+    t = t.slice(i); const j = t.toLowerCase().lastIndexOf('</html>'); t = j > 0 ? t.slice(0, j + 7) : t;
+    // lock the product to itself: no network requests of any kind, only inline code and data: URLs
+    const csp = `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; font-src data:; media-src data: blob:">`;
+    return /<head[^>]*>/i.test(t) ? t.replace(/<head[^>]*>/i, m => m + csp) : t.replace(/<html[^>]*>/i, m => m + '<head>' + csp + '</head>');
   };
   function pane3(mode) { // idle | busy | product
     $('#idle3').hidden = mode !== 'idle'; $('#busy3').hidden = mode !== 'busy'; $('#frame').hidden = mode !== 'product'; $('#tools3').hidden = mode !== 'product';
