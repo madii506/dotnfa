@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>.nfa</title>
+<title>nfa</title>
 <meta name="description" content="Non-fungible agent. Create an AI agent, mint it as an NFT on Solana with its own wallet. Own it, run it, sell it.">
 <meta name="theme-color" content="#f7f6f2">
-<meta property="og:title" content=".nfa — Non-fungible agent.">
+<meta property="og:title" content="nfa — Non-fungible agent.">
 <meta property="og:description" content="Create an AI agent, mint it as an NFT with its own wallet. Own it, run it, sell it.">
 <meta property="og:image" content="/assets/img/og.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -20,7 +20,7 @@
 </head>
 <body class="game">
 <nav class="nav" aria-label="Main">
-  <a class="mark" href="/" aria-label=".nfa home"><canvas id="navmark" width="44" height="60"></canvas><canvas data-logo="2" aria-hidden="true"></canvas></a>
+  <a class="mark" href="/" aria-label="nfa home"><canvas id="navmark" width="44" height="60"></canvas><canvas data-logo="2" aria-hidden="true"></canvas></a>
   <div class="links"><a href="#create">Create</a><a href="#quests">Quests</a><a href="#parts">Parts</a><a href="#stack">Stack</a><a href="#hall">Hall</a><a href="/inventory">Inventory</a><a href="#faq">FAQ</a></div>
   <div class="right"><a class="pbtn sm lime mintcta" href="#create" id="navMint">▶ Create</a><button class="pbtn sm" id="walletBtn" type="button">Connect wallet</button><button class="pbtn sm burger" type="button" aria-label="Menu">☰</button></div>
 </nav>
@@ -30,7 +30,7 @@
     <canvas class="sky" id="sky" aria-hidden="true"></canvas>
     <div class="creator">
       <div class="podium">
-        <h1 class="sr">.nfa — non-fungible agent. Create an AI agent, mint it as an NFT with its own wallet.</h1>
+        <h1 class="sr">nfa — non-fungible agent. Create an AI agent, mint it as an NFT with its own wallet.</h1>
         <div class="hero-agent">
           <canvas id="agentCv" role="img" aria-label="Your agent, as its NFT will look"></canvas>
           <canvas id="pedestal" aria-hidden="true"></canvas>
@@ -104,7 +104,7 @@
 
   <section class="band" id="stack">
     <div class="wrap2">
-      <div class="head2 rv"><span class="k">THE STACK</span><h2>No magic. Just open programs.</h2><p class="sub2">.nfa writes nothing custom on-chain. It puts existing Solana programs together, so everything can be checked on Solscan.</p></div>
+      <div class="head2 rv"><span class="k">THE STACK</span><h2>No magic. Just open programs.</h2><p class="sub2">nfa writes nothing custom on-chain. It puts existing Solana programs together, so everything can be checked on Solscan.</p></div>
       <div class="flow rv">
         <div class="node you"><b>YOUR WALLET</b><span>Phantom or Solflare. Owns the NFT, signs every move.</span></div>
         <i class="arw2" aria-hidden="true">▶</i>
@@ -124,14 +124,14 @@
           <li>Build a look and robots.txt</li><li>Read any agent on Metaplex's registry</li><li>Inventory: what your wallet really holds</li>
           <li>Agent pages: wallet, activity, rules</li><li>Fund, withdraw and swap for agents you own, signed by you</li></ul></div>
         <div class="col no"><h3>NOT YET</h3><ul>
-          <li>Minting on .nfa</li><li>Agents that trade on their own</li></ul></div>
+          <li>Minting on nfa</li><li>Agents that trade on their own</li></ul></div>
       </div>
     </div>
   </section>
 
   <section class="band" id="hall">
     <div class="wrap2">
-      <div class="head2 rv"><span class="k">HALL OF AGENTS</span><h2>Every .nfa agent, read from the chain.</h2><p class="sub2">Only agents minted on .nfa show here, found through the .nfa anchor address on Solana. Nothing is listed until mint opens.</p></div>
+      <div class="head2 rv"><span class="k">HALL OF AGENTS</span><h2>Every nfa agent, read from the chain.</h2><p class="sub2">Only agents minted on nfa show here, found through the nfa anchor address on Solana. Nothing is listed until mint opens.</p></div>
       <div class="look2"><input class="pin" id="lookIn" placeholder="Agent address or owner wallet" autocomplete="off" aria-label="Look up"><button class="pbtn" id="lookBtn" type="button">Look up</button></div>
       <div id="wall"></div>
     </div>
@@ -141,13 +141,13 @@
     <div class="wrap2 faq">
       <div class="head2 rv"><span class="k">FAQ</span><h2>Questions.</h2></div>
       <details><summary>Is mint live?</summary><div class="a">Not yet. When it opens, the mint button on this page turns on. Until then you can build your agent; the draft stays saved in this browser.</div></details>
-      <details><summary>What does minting cost?</summary><div class="a">No .nfa fee. You pay Solana's rent for the NFT and its registry entry (about 0.006 SOL) and the network fee. The mint tab shows the exact number from a dry run before you sign.</div></details>
+      <details><summary>What does minting cost?</summary><div class="a">No nfa fee. You pay Solana's rent for the NFT and its registry entry (about 0.006 SOL) and the network fee. The mint tab shows the exact number from a dry run before you sign.</div></details>
       <details><summary>Can the agent spend my money?</summary><div class="a">No. Its wallet is separate from yours, and nothing leaves it unless the NFT's owner signs. You decide what goes in.</div></details>
       <details><summary>What happens when I sell it?</summary><div class="a">The NFT moves to the buyer, and with it the agent's wallet, balance, rules and history. From then on only the new owner can move money out.</div></details>
       <details><summary>Does it trade on its own?</summary><div class="a">Not yet. It chats, writes status notes from its real wallet, and suggests at most one trade that fits its rules. You press the button and sign.</div></details>
       <details><summary>How do I connect on my phone?</summary><div class="a">Tap Connect wallet, then Open in Phantom or Open in Solflare. The site opens inside the wallet's own browser, where connecting works.</div></details>
       <details><summary>Where do I see my agents?</summary><div class="a">In your inventory. Connect Phantom or Solflare (top right) and it reads what your wallet really holds.</div></details>
-      <details><summary>Is .nfa part of Metaplex?</summary><div class="a">No. .nfa is independent. It uses Metaplex's open programs (Core and the Agent Registry) and Jupiter's public API.</div></details>
+      <details><summary>Is nfa part of Metaplex?</summary><div class="a">No. nfa is independent. It uses Metaplex's open programs (Core and the Agent Registry) and Jupiter's public API.</div></details>
     </div>
   </section>
 </main>

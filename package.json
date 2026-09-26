@@ -2,7 +2,7 @@
   "name": "nfa-site",
   "private": true,
   "version": "1.0.0",
-  "description": ".nfa \u2014 non-fungible agents on Solana",
+  "description": "nfa \u2014 non-fungible agents on Solana",
   "engines": {
     "node": "22.x"
   },
