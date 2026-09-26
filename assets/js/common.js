@@ -60,7 +60,7 @@
     const b = $('.nav .burger'); if (!b) return;
     b.onclick = () => {
       const box = document.createElement('div'); box.className = 'modal menu';
-      box.innerHTML = `<div class="sheet"><button class="x" aria-label="Close">×</button><h3>Menu</h3>${$$('.nav .links a, .nav .more a').map(a => `<a class="wbtn" href="${esc(a.getAttribute('href'))}"${a.target ? ' target="_blank" rel="noopener"' : ''}>${esc(a.textContent)}<small class="det">▶</small></a>`).join('')}</div>`;
+      box.innerHTML = `<div class="sheet"><button class="x" aria-label="Close">×</button><h3>Menu</h3>${$$('.nav .links a, .nav .more a, .nav .xlink').map(a => `<a class="wbtn" href="${esc(a.getAttribute('href'))}"${a.target ? ' target="_blank" rel="noopener"' : ''}>${esc(a.dataset.label || a.textContent)}<small class="det">▶</small></a>`).join('')}</div>`;
       document.body.appendChild(box); requestAnimationFrame(() => box.classList.add('on'));
       const close = () => { box.classList.remove('on'); setTimeout(() => box.remove(), 200); };
       box.onclick = e => { if (e.target === box || e.target.closest('.x') || e.target.closest('a')) close(); };
@@ -68,7 +68,7 @@
   }
   $$('canvas[data-logo]').forEach(c => logo(c, +c.dataset.logo || 3, { shade: c.dataset.shade === 'none' ? null : '#c8f24a', ink: c.dataset.ink || '#111113' }));
   // the site's own config (ca / x) — rows render only when set
-  const CFG = { ca: '', x: '' };
+  const CFG = { ca: '', x: 'https://x.com/nfallm_' };
   function scam() {
     const el = $('#scam'); if (!el) return;
     el.innerHTML = CFG.ca ? `OFFICIAL TOKEN <b>$NFA</b> <code>${esc(CFG.ca)}</code> <button type="button" id="scamCopy">copy</button> — anything else is not ours`
