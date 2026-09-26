@@ -1,4 +1,4 @@
-/* .nfa game layer: pixel type, hard shadows, a character creator. Loaded after nfa.css. */
+/* nfa game layer: pixel type, hard shadows, a character creator. Loaded after nfa.css. */
 body.game{background:var(--paper)}
 .game h1,.game h2,.game h3,.game .nav .mark,.game .nav .links a{font-family:var(--px)}
 .nav .mark{font:700 26px/1 var(--px)}
