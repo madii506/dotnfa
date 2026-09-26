@@ -341,3 +341,51 @@ button.agx{background:none;border:0;padding:0;cursor:pointer;color:var(--ink)}
 @keyframes flick{50%{opacity:.6}}
 @keyframes bootsafe{to{opacity:0;visibility:hidden}}
 @media (max-width:500px){#bootLog{font-size:8px}}
+
+/* ---------- WORK: the task desk ---------- */
+.wrap2.wide{max-width:1260px}
+.work{background:var(--paper)}
+.desk{display:grid;grid-template-columns:minmax(0,380px) minmax(0,1fr);gap:24px;align-items:start}
+.who2{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;text-decoration:none;color:var(--ink);border:3px solid var(--ink);padding:8px 10px;background:var(--paper)}
+.who2 canvas{width:33px;height:45px;image-rendering:pixelated}
+.who2 span{display:grid;gap:4px;min-width:0}
+.who2 b{font:700 18px/1 var(--px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.who2 small{font:400 10px/1 var(--tiny);letter-spacing:.6px;color:var(--mute)}
+.who2 em{font:400 10px/1 var(--tiny);font-style:normal;letter-spacing:.6px;background:var(--lime);border:2px solid var(--ink);padding:5px 6px}
+.pin.area{height:130px;padding:12px;resize:vertical;line-height:1.4;font-size:16px}
+.chips3{display:flex;flex-wrap:wrap;gap:6px}
+.chips3 button{border:2px dashed var(--line2);background:transparent;padding:7px 9px;font:600 13px/1.25 var(--px);color:var(--ink2);cursor:pointer;text-align:left}
+.chips3 button:hover{border-style:solid;border-color:var(--ink);background:#fffdf7;color:var(--ink)}
+.product{min-width:0}
+.stage3{position:relative;background:#fffdf7;height:560px}
+.stage3 iframe{display:block;width:100%;height:100%;border:0;background:#fff}
+.idle3,.busy3{position:absolute;inset:0;display:grid;place-items:center;align-content:center;gap:14px;padding:22px}
+.idle3 canvas{image-rendering:pixelated;opacity:.9}
+.idle3 b{font:700 20px/1 var(--px);color:var(--mute)}
+.busy3{align-content:stretch;grid-template-rows:auto auto minmax(0,1fr);place-items:stretch;background:#15151a;color:#e9e7e0}
+.top3{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.top3 span{font:700 18px/1 var(--px);color:var(--lime)}
+.top3 span::after{content:"";display:inline-block;width:10px;height:14px;margin-left:8px;background:var(--lime);vertical-align:-2px;animation:blinkb .8s steps(2) infinite}
+.top3 b{font:500 12px/1 var(--mono);color:#bdbbb3}
+.busy3 .meter{border-color:#e9e7e0;background:#23232a}
+.busy3 pre{margin:0;overflow:hidden;font:500 11.5px/1.5 var(--mono);color:#cfcdc5;white-space:pre-wrap;word-break:break-all;display:flex;flex-direction:column;justify-content:flex-end;-webkit-mask-image:linear-gradient(to bottom,transparent,#000 30%);mask-image:linear-gradient(to bottom,transparent,#000 30%)}
+.tools3{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:12px;border-top:3px solid var(--ink)}
+.tools3 .rev{flex:1 1 280px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
+.tools3 .rev .pin{height:36px;font-size:15px}
+.stage3:fullscreen{height:100vh;background:#fff}
+.stage3.fs{position:fixed;inset:0;z-index:150;height:auto}
+.fsx{position:absolute;right:14px;top:14px;z-index:3}
+.log3{margin-top:28px;display:grid;gap:8px}
+.log3 .lh{display:flex;justify-content:space-between;align-items:baseline;font:400 12px/1 var(--tiny);letter-spacing:1px}
+.log3 .lh small{font:400 10px/1 var(--tiny);color:var(--mute)}
+.li3{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto auto;gap:12px;align-items:center;border:3px solid var(--ink);background:#fffdf7;padding:8px 10px;cursor:pointer}
+.li3.on{background:var(--lime)}
+.li3 .kd{font:400 10px/1 var(--tiny);letter-spacing:.6px;background:var(--ink);color:var(--lime);padding:5px 6px}
+.li3 b{font:600 15px/1.2 var(--px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.li3 small{font:500 11px/1 var(--mono);color:var(--mute);white-space:nowrap}
+.li3 button{border:2px solid var(--ink);background:#fffdf7;font:700 13px/1 var(--px);padding:6px 9px;cursor:pointer}
+.levels{grid-template-columns:repeat(6,minmax(0,1fr))}
+@media (max-width:1020px){.desk{grid-template-columns:1fr}.stage3{height:480px}}
+@media (max-width:620px){.stage3{height:440px}.li3{grid-template-columns:auto minmax(0,1fr) auto;row-gap:6px}.li3 small{grid-column:2/3}.li3 button[data-a=open]{display:none}}
+@media (max-width:1100px){.levels{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:620px){.levels{grid-template-columns:1fr}}
