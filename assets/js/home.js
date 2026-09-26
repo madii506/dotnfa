@@ -15,6 +15,7 @@
     id: ['............', '############', '#wwwwwwwwww#', '#w###wwwwww#', '#w#o#w####w#', '#w###wwwwww#', '#wwwww###ww#', '#w###wwwwww#', '#wwwwwwwwww#', '############', '............', '............'],
     bag: ['............', '..########..', '.#wwwwwwww#.', '############', '#oooooooooo#', '#ooooooo####', '#oooooo#ww##', '#oooooo#w###', '#ooooooo####', '#oooooooooo#', '############', '............'],
     up: ['.........##.', '.........##.', '......##.##.', '......##.##.', '...##.##.##.', '...##.##.##.', 'oo.##.##.##.', 'oo.##.##.##.', 'oo.##.##.##.', 'oo.##.##.##.', '############', '............'],
+    ship: ['............', '.##########.', '#wwwwoowwww#', '############', '#wwwwoowwww#', '#wwwwoowwww#', '#wwwwoowwww#', '#wwwwoowwww#', '#wwwwwwwwww#', '#ww###wwwww#', '############', '............'],
     swap: ['............', '.......#....', '.......##...', '##########..', '.......##...', '.......#....', '....o.......', '...oo.......', '..oooooooooo', '...oo.......', '....o.......', '............'],
   };
   $$('canvas[data-ic]').forEach(c => {
@@ -80,7 +81,7 @@
   }
   function refresh(line, doPop = true) {
     paintAgent(); if (doPop) pop();
-    rarity(); robots(); summary(); save(); if (window.__parts) window.__parts();
+    rarity(); robots(); summary(); save(); if (window.__parts) window.__parts(); if (window.__desk) window.__desk();
     if (line) say(line);
   }
 
@@ -334,6 +335,105 @@
   $('#tiers').innerHTML = `<div class="th">RARITY TIERS<small>share of random rolls</small></div>` + TIERS.map(([, t]) => `<div class="tr r-${t}"><b>${t.toUpperCase()}</b><span class="bar2"><i style="width:${Math.max(2, share[t] * 100 / .5)}%"></i></span><em>${(share[t] * 100).toFixed(1)}%</em><small>${RANGE[t]}</small></div>`).join('');
   let partsKey = JSON.stringify(S.traits); parts();
   window.__parts = () => { const j = JSON.stringify(S.traits); if (j !== partsKey) { partsKey = j; parts(); } };
+
+
+  /* ---------- WORK: submit a task, get a working product back ---------- */
+  const IDEAS = {
+    site: ['Landing page for a pixel robot coffee shop called Byte Brew', 'Portfolio for a 3D artist with a gallery and a contact form', 'One-page site for a Solana meme community with a roadmap'],
+    tool: ['Tip calculator that splits a bill between friends', 'DCA calculator: amount per week, number of weeks, average price', 'Pomodoro timer with a task list and session stats'],
+    game: ['Snake where the snake is a pixel robot collecting coins', 'Reaction-time tester with a best-of-five scoreboard', 'Breakout with lime bricks and a robot paddle'],
+    doc: ['One-page launch plan for a community event', 'Beginner guide: how a Solana transaction works', 'Weekly workout plan for someone with 30 minutes a day'],
+  };
+  const KIND_NAME = { site: 'WEBSITE', tool: 'TOOL', game: 'GAME', doc: 'DOC' };
+  const W = { kind: 'site', busy: false, cur: null, log: store.get('work', []) };
+  const deskAgent = () => {
+    A.paint($('#deskAgent'), S.traits, { scale: 1, shadow: false, pose: 'still' });
+    A.paint($('#idleAgent'), S.traits, { scale: 3, shadow: false, pose: 'wave' });
+    $('#deskName').textContent = S.name || 'Your agent';
+    const o = A.odds(S.traits); $('#deskRare').textContent = `${tier(o).toUpperCase()} · ${S.rules.style.toUpperCase()}`;
+  };
+  window.__desk = deskAgent;
+  const ideas = () => { $('#ideas').innerHTML = IDEAS[W.kind].map(t => `<button type="button">${esc(t)}</button>`).join(''); };
+  $('#kindSeg').onclick = e => { const b = e.target.closest('button'); if (!b) return; W.kind = b.dataset.v; $$('#kindSeg button').forEach(x => x.classList.toggle('on', x === b)); ideas(); };
+  $('#ideas').onclick = e => { const b = e.target.closest('button'); if (!b) return; $('#taskIn').value = b.textContent; $('#taskIn').focus(); };
+
+  const extract = raw => {
+    let t = raw.replace(/<!--NFA_ERROR[^>]*-->/g, '').replace(/^[\s\S]*?```(?:html)?\s*/i, m => /```/.test(m) ? '' : m).replace(/```\s*$/, '');
+    const i = t.search(/<!doctype html|<html[\s>]/i); if (i < 0) return '';
+    t = t.slice(i); const j = t.toLowerCase().lastIndexOf('</html>'); return j > 0 ? t.slice(0, j + 7) : t;
+  };
+  function pane3(mode) { // idle | busy | product
+    $('#idle3').hidden = mode !== 'idle'; $('#busy3').hidden = mode !== 'busy'; $('#frame').hidden = mode !== 'product'; $('#tools3').hidden = mode !== 'product';
+  }
+  function show(item) {
+    W.cur = item; pane3('product'); $('#frame').srcdoc = item.html;
+    $('#prodTitle').textContent = `PRODUCT · ${KIND_NAME[item.kind]} · V${item.v}`;
+    logUi();
+  }
+  function logUi() {
+    const el = $('#log3');
+    el.innerHTML = W.log.length ? `<div class="lh">WORK LOG<small>${W.log.length} in this browser</small></div>` + W.log.map(x => `<div class="li3${W.cur && W.cur.id === x.id ? ' on' : ''}" data-id="${x.id}"><span class="kd">${KIND_NAME[x.kind]}</span><b>${esc(x.brief)}</b><small>V${x.v} · ${esc(x.by)} · ${fmt.ago(x.at)}</small><button type="button" data-a="open">Open</button><button type="button" data-a="del" aria-label="Delete">×</button></div>`).join('') : '';
+  }
+  function keep(item) {
+    W.log = [item, ...W.log.filter(x => x.id !== item.id)].slice(0, 8);
+    for (let n = W.log.length; n > 0; n--) { try { localStorage.setItem('nfa.work', JSON.stringify(W.log.slice(0, n))); break; } catch { if (n === 1) break; } }
+  }
+  $('#log3').onclick = e => {
+    const b = e.target.closest('button'), row = e.target.closest('.li3'); if (!row) return;
+    const it = W.log.find(x => x.id === row.dataset.id); if (!it) return;
+    if (b && b.dataset.a === 'del') { W.log = W.log.filter(x => x !== it); store.set('work', W.log); if (W.cur === it) { W.cur = null; pane3('idle'); $('#prodTitle').textContent = 'PRODUCT'; } logUi(); return; }
+    show(it);
+  };
+
+  async function work(payload, label) {
+    if (W.busy) return; W.busy = true; $('#taskBtn').disabled = $('#revBtn').disabled = true; $('#taskMsg').innerHTML = '';
+    pane3('busy'); $('#busyText').textContent = label; $('#busyStat').textContent = ''; $('#taskBar').style.width = '2%'; $('#codeTail').textContent = '';
+    $('#prodTitle').textContent = `${S.name || 'YOUR AGENT'} IS WORKING`.toUpperCase();
+    try {
+      let r; try { r = await fetch('/api/task', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload) }); } catch { throw new Error('You look offline. Check your connection.'); }
+      if (!r.ok || !(r.headers.get('content-type') || '').startsWith('text/plain')) { const j = await r.json().catch(() => ({})); throw new Error(j.msg || 'The agent couldn\'t take the task right now.'); }
+      const rd = r.body.getReader(), dec = new TextDecoder(); let out = '';
+      for (;;) {
+        const { done, value } = await rd.read(); if (done) break; out += dec.decode(value, { stream: true });
+        $('#busyStat').textContent = `${(out.length / 1024).toFixed(1)} KB · ${out.split('\n').length} lines`;
+        $('#taskBar').style.width = Math.min(96, 4 + out.length / 160) + '%';
+        $('#codeTail').textContent = out.slice(-1600);
+      }
+      const html = extract(out);
+      if (!html || html.length < 200) throw new Error(/NFA_ERROR/.test(out) ? 'The agent stopped early. Try again.' : 'The agent didn\'t return a working file. Try rephrasing the task.');
+      $('#taskBar').style.width = '100%';
+      const item = payload.prev ? { ...W.cur, html, v: W.cur.v + 1, at: Date.now(), by: S.name || 'Your agent' }
+        : { id: Date.now().toString(36), kind: payload.kind, brief: payload.brief, html, v: 1, at: Date.now(), by: S.name || 'Your agent' };
+      keep(item); show(item); $('#revIn').value = '';
+    } catch (e) {
+      if (W.cur) show(W.cur); else { pane3('idle'); $('#prodTitle').textContent = 'PRODUCT'; }
+      $('#taskMsg').innerHTML = `<div class="note bad">${esc(e.message || 'Something went wrong.')}</div>`;
+    }
+    W.busy = false; $('#taskBtn').disabled = $('#revBtn').disabled = false;
+  }
+  const agentPayload = () => ({ name: S.name || 'Your agent', traits: S.traits, rules: S.rules });
+  $('#taskBtn').onclick = () => {
+    const brief = $('#taskIn').value.trim(); if (brief.length < 8) { $('#taskIn').focus(); return toast('Describe the task in a sentence or two.'); }
+    work({ ...agentPayload(), kind: W.kind, brief }, 'Building');
+  };
+  $('#taskIn').onkeydown = e => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) $('#taskBtn').click(); };
+  $('#revBtn').onclick = () => {
+    const change = $('#revIn').value.trim(); if (!W.cur) return; if (change.length < 3) { $('#revIn').focus(); return toast('Say what to change.'); }
+    work({ ...agentPayload(), kind: W.cur.kind, brief: W.cur.brief, prev: W.cur.html, change }, 'Revising');
+  };
+  $('#revIn').onkeydown = e => { if (e.key === 'Enter') $('#revBtn').click(); };
+  const slug = s => String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'product';
+  $('#dlBtn').onclick = () => {
+    if (!W.cur) return; const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([W.cur.html], { type: 'text/html' })); a.download = `${slug(W.cur.brief)}-v${W.cur.v}.html`;
+    document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  };
+  $('#cpBtn').onclick = () => W.cur && I.copy(W.cur.html, 'Code copied');
+  const st3 = $('#stage3');
+  $('#fsBtn').onclick = () => { if (st3.requestFullscreen) st3.requestFullscreen().catch(() => st3.classList.add('fs')); else st3.classList.add('fs'); $('#fsClose').hidden = false; };
+  $('#fsClose').onclick = () => { if (document.fullscreenElement) document.exitFullscreen(); st3.classList.remove('fs'); $('#fsClose').hidden = true; };
+  document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement) { st3.classList.remove('fs'); $('#fsClose').hidden = true; } });
+  ideas(); deskAgent(); pane3('idle'); logUi(); if (W.log[0]) show(W.log[0]);
 
   /* ---------- nav highlight ---------- */
   const links = $$('.nav .links a');
