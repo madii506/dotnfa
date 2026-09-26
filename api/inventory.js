@@ -1,5 +1,5 @@
 // GET /api/inventory?owner=<wallet>[&known=a,b,c] — everything a wallet really holds, read from Solana:
-// its agents (Metaplex Core NFTs that are .nfa agents or registered on the Agent Registry), its other Core NFTs,
+// its agents (Metaplex Core NFTs that are nfa agents or registered on the Agent Registry), its other Core NFTs,
 // and its tokens with live prices. Read-only; nothing to sign.
 const L = require('./_lib');
 const A = require('../assets/js/agentpx.js');
@@ -12,7 +12,7 @@ async function ownedCore(owner) {
   if (r.error || !Array.isArray(r.result)) return null;
   return r.result.map(x => L.decodeAsset(x.pubkey, x.account)).filter(Boolean);
 }
-// fallback when the RPC refuses a program scan: recent .nfa mints plus any addresses this browser remembers
+// fallback when the RPC refuses a program scan: recent nfa mints plus any addresses this browser remembers
 async function fallback(owner, known) {
   const sigs = await L.rpc('getSignaturesForAddress', [L.ANCHOR, { limit: 200, commitment: 'confirmed' }]).catch(() => []);
   const addrs = new Set(known);
@@ -32,7 +32,7 @@ module.exports = L.wrap(async (req, res) => {
   const c = cache.get(owner);
   if (c && L.now() - c.at < 10000 && !known.length) return L.send(res, 200, c.v);
   let nfts = await ownedCore(owner).catch(() => null), source = 'program scan';
-  if (!nfts) { nfts = await fallback(owner, known); source = 'recent .nfa mints'; }
+  if (!nfts) { nfts = await fallback(owner, known); source = 'recent nfa mints'; }
   const agents = [], other = [];
   for (const n of nfts) {
     const made = /\/api\/meta\?a=/.test(n.uri || '');

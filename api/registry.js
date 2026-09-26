@@ -1,4 +1,4 @@
-// GET /api/registry?v=here  — agents minted on .nfa (every mint touches the .nfa anchor address, so the chain lists them)
+// GET /api/registry?v=here  — agents minted on nfa (every mint touches the nfa anchor address, so the chain lists them)
 // GET /api/registry?v=all   — the newest agents registered on Metaplex's Agent Registry by anyone on Solana
 const L = require('./_lib');
 const A = require('../assets/js/agentpx.js');

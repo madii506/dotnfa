@@ -1,4 +1,4 @@
-// .nfa server library: http helpers, Solana RPC, Jupiter, Metaplex Core + Agent Registry transaction building.
+// nfa server library: http helpers, Solana RPC, Jupiter, Metaplex Core + Agent Registry transaction building.
 // Nothing here holds a user's keys. The only key the server ever touches is the brand-new asset keypair,
 // which signs the one create instruction and is then thrown away.
 const CFG = require('./_config');
@@ -140,7 +140,7 @@ async function tokenMeta(mints) {
 /* ---------- Metaplex ---------- */
 const CORE = 'CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d';
 const IDENTITY = '1DREGFgysWYxLnRnKQnwrxnJQeSMk2HmGaC6whw2B2p';
-const ANCHOR = CFG.anchor; // every .nfa mint touches this address with a 0-lamport transfer, so the registry can list them
+const ANCHOR = CFG.anchor; // every nfa mint touches this address with a 0-lamport transfer, so the registry can list them
 let _umi = null;
 function freshUmi() {
   const { createUmi } = require('@metaplex-foundation/umi-bundle-defaults');

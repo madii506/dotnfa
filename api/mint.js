@@ -1,6 +1,6 @@
 // POST /api/mint — build the mint for a new non-fungible agent.
 // One transaction: create the Core NFT (traits + robots.txt as attributes, owned by you), register it with
-// Metaplex's Agent Registry, optionally put SOL in the agent's own wallet, and touch the .nfa anchor so it shows
+// Metaplex's Agent Registry, optionally put SOL in the agent's own wallet, and touch the nfa anchor so it shows
 // in the registry. The server makes a fresh asset keypair, signs only the create with it, dry-runs the whole
 // thing on mainnet and hands it back. Your wallet signs and pays; nothing is sent until you approve it.
 const L = require('./_lib');

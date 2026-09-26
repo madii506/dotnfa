@@ -1,6 +1,6 @@
 // Site settings. ca and x stay empty until they exist; the page only shows them once set.
 module.exports = {
-  name: '.nfa',
+  name: 'nfa',
   ticker: '$NFA',
   ca: '',
   x: '',
