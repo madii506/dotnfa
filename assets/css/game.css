@@ -389,3 +389,4 @@ button.agx{background:none;border:0;padding:0;cursor:pointer;color:var(--ink)}
 @media (max-width:620px){.stage3{height:440px}.li3{grid-template-columns:auto minmax(0,1fr) auto;row-gap:6px}.li3 small{grid-column:2/3}.li3 button[data-a=open]{display:none}}
 @media (max-width:1100px){.levels{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width:620px){.levels{grid-template-columns:1fr}}
+.xlink{width:36px;padding:0!important;font-size:16px!important}
