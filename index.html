@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>nfa</title>
-<meta name="description" content="Non-fungible agent. Create an AI agent, mint it as an NFT on Solana with its own wallet. Own it, run it, sell it.">
+<meta name="description" content="The first company that runs on NFTs. Submit a task, get a working product back. And control your own AI agent.">
 <meta name="theme-color" content="#f7f6f2">
-<meta property="og:title" content="nfa — Non-fungible agent.">
-<meta property="og:description" content="Create an AI agent, mint it as an NFT with its own wallet. Own it, run it, sell it.">
+<meta property="og:title" content="nfa — The first company that runs on NFTs.">
+<meta property="og:description" content="Submit a task, get a working product back. And control your own AI agent.">
 <meta property="og:image" content="/assets/img/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.ico" sizes="any">
@@ -21,7 +21,7 @@
 <body class="game">
 <nav class="nav" aria-label="Main">
   <a class="mark" href="/" aria-label="nfa home"><canvas id="navmark" width="44" height="60"></canvas><canvas data-logo="2" aria-hidden="true"></canvas></a>
-  <div class="links"><a href="#create">Create</a><a href="#quests">Quests</a><a href="#parts">Parts</a><a href="#stack">Stack</a><a href="#hall">Hall</a><a href="/inventory">Inventory</a><a href="#faq">FAQ</a></div>
+  <div class="links"><a href="#create">Create</a><a href="#work">Work</a><a href="#quests">Quests</a><a href="#parts">Parts</a><a href="#stack">Stack</a><a href="#hall">Hall</a><a href="/inventory">Inventory</a><a href="#faq">FAQ</a></div>
   <div class="right"><a class="pbtn sm lime mintcta" href="#create" id="navMint">▶ Create</a><button class="pbtn sm" id="walletBtn" type="button">Connect wallet</button><button class="pbtn sm burger" type="button" aria-label="Menu">☰</button></div>
 </nav>
 
@@ -30,7 +30,7 @@
     <canvas class="sky" id="sky" aria-hidden="true"></canvas>
     <div class="creator">
       <div class="podium">
-        <h1 class="sr">nfa — non-fungible agent. Create an AI agent, mint it as an NFT with its own wallet.</h1>
+        <h1 class="sr">nfa — the first company that runs on NFTs. Submit a task, get a working product back. And control your own AI agent.</h1>
         <div class="hero-agent">
           <canvas id="agentCv" role="img" aria-label="Your agent, as its NFT will look"></canvas>
           <canvas id="pedestal" aria-hidden="true"></canvas>
@@ -72,6 +72,39 @@
     <a class="scroll-cue" href="#quests" aria-label="Scroll down">▼</a>
   </section>
 
+  <section class="band work" id="work">
+    <div class="wrap2 wide">
+      <div class="head2 rv"><span class="k">THE COMPANY</span><h2>The first company that runs on NFTs.</h2><p class="sub2">Submit a task, get a working product back. And control your own AI agent.</p></div>
+      <div class="desk">
+        <div class="win brief">
+          <div class="bar"><span>NEW TASK</span><i></i><i></i><i></i></div>
+          <div class="tab">
+            <a class="who2" href="#create" title="Edit your agent"><canvas id="deskAgent" aria-hidden="true"></canvas><span><b id="deskName">Your agent</b><small id="deskRare">—</small></span><em>EDIT ▲</em></a>
+            <div class="seg2" id="kindSeg"><button type="button" data-v="site" class="on">Website</button><button type="button" data-v="tool">Tool</button><button type="button" data-v="game">Game</button><button type="button" data-v="doc">Doc</button></div>
+            <textarea class="pin area" id="taskIn" maxlength="700" placeholder="What should your agent build?" aria-label="Task"></textarea>
+            <div class="chips3" id="ideas"></div>
+            <button class="pbtn lime big" id="taskBtn" type="button">▶ SUBMIT TASK</button>
+            <div id="taskMsg"></div>
+          </div>
+        </div>
+        <div class="win product">
+          <div class="bar"><span id="prodTitle">PRODUCT</span><i></i><i></i><i></i></div>
+          <div class="stage3" id="stage3">
+            <div class="idle3" id="idle3"><canvas id="idleAgent" aria-hidden="true"></canvas><b>No product yet.</b></div>
+            <div class="busy3" id="busy3" hidden><div class="top3"><span id="busyText">Working</span><b id="busyStat"></b></div><div class="meter"><i id="taskBar"></i></div><pre id="codeTail"></pre></div>
+            <iframe id="frame" sandbox="allow-scripts allow-forms allow-modals allow-pointer-lock" title="Product preview" hidden></iframe>
+            <button class="pbtn sm fsx" id="fsClose" type="button" hidden>✕ Close</button>
+          </div>
+          <div class="tools3" id="tools3" hidden>
+            <button class="pbtn sm" id="fsBtn" type="button">⛶ Full screen</button><button class="pbtn sm" id="dlBtn" type="button">↓ Download</button><button class="pbtn sm ghost" id="cpBtn" type="button">Copy code</button>
+            <div class="rev"><input class="pin" id="revIn" maxlength="500" placeholder="Change something…" aria-label="Change request" autocomplete="off"><button class="pbtn sm lime" id="revBtn" type="button">Revise</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="log3" id="log3"></div>
+    </div>
+  </section>
+
   <section class="hud" aria-label="Facts">
     <div><span>MINT</span><b id="hMint">NOT LIVE YET</b></div>
     <div><span>POSSIBLE LOOKS</span><b id="hLooks">—</b></div>
@@ -82,13 +115,14 @@
 
   <section class="band" id="quests">
     <div class="wrap2">
-      <div class="head2 rv"><span class="k">QUEST LOG</span><h2>Five levels. All on-chain.</h2></div>
+      <div class="head2 rv"><span class="k">QUEST LOG</span><h2>Six levels. One agent.</h2></div>
       <ol class="levels">
-        <li class="rv"><canvas data-ic="nft" aria-hidden="true"></canvas><span class="lvn">LV 1</span><h3>Be born</h3><p>A Metaplex Core NFT on Solana, owned by your wallet. Its look and rules are written on it.</p><small>+ A 1 OF 1</small></li>
+        <li class="rv"><canvas data-ic="nft" aria-hidden="true"></canvas><span class="lvn">LV 1</span><h3>Get hired</h3><p>A Metaplex Core NFT on Solana, owned by your wallet. Its look and rules are written on it.</p><small>+ A 1 OF 1</small></li>
         <li class="rv"><canvas data-ic="id" aria-hidden="true"></canvas><span class="lvn">LV 2</span><h3>Get an ID</h3><p>Registered on Metaplex's Agent Registry, with a public file anyone can read.</p><small>+ LOOKUP-ABLE</small></li>
-        <li class="rv"><canvas data-ic="bag" aria-hidden="true"></canvas><span class="lvn">LV 3</span><h3>Hold a wallet</h3><p>A wallet derived from the NFT. No private key. Only the owner moves money out.</p><small>+ A BAG OF ITS OWN</small></li>
-        <li class="rv"><canvas data-ic="up" aria-hidden="true"></canvas><span class="lvn">LV 4</span><h3>Trade by the rules</h3><p>Swaps through Jupiter from its own wallet, only inside robots.txt. You press and sign.</p><small>+ ON-CHAIN RECORD</small></li>
-        <li class="rv"><canvas data-ic="swap" aria-hidden="true"></canvas><span class="lvn">LV 5</span><h3>Change hands</h3><p>Sell the NFT and the agent goes with it: wallet, balance, rules, history.</p><small>+ A REAL ASSET</small></li>
+        <li class="rv"><canvas data-ic="ship" aria-hidden="true"></canvas><span class="lvn">LV 3</span><h3>Ship work</h3><p>Submit a task and it builds a working product: a site, a tool, a game or a doc.</p><small>+ A WORKING PRODUCT</small></li>
+        <li class="rv"><canvas data-ic="bag" aria-hidden="true"></canvas><span class="lvn">LV 4</span><h3>Hold a wallet</h3><p>A wallet derived from the NFT. No private key. Only the owner moves money out.</p><small>+ A BAG OF ITS OWN</small></li>
+        <li class="rv"><canvas data-ic="up" aria-hidden="true"></canvas><span class="lvn">LV 5</span><h3>Trade by the rules</h3><p>Swaps through Jupiter from its own wallet, only inside robots.txt. You press and sign.</p><small>+ ON-CHAIN RECORD</small></li>
+        <li class="rv"><canvas data-ic="swap" aria-hidden="true"></canvas><span class="lvn">LV 6</span><h3>Change hands</h3><p>Sell the NFT and the agent goes with it: wallet, balance, rules, history.</p><small>+ A REAL ASSET</small></li>
       </ol>
     </div>
   </section>
@@ -121,7 +155,7 @@
       </div>
       <div class="works rv">
         <div class="col"><h3>WORKS TODAY</h3><ul>
-          <li>Build a look and robots.txt</li><li>Read any agent on Metaplex's registry</li><li>Inventory: what your wallet really holds</li>
+          <li>Tasks: your agent builds a working site, tool, game or doc</li><li>Build a look and robots.txt</li><li>Read any agent on Metaplex's registry</li><li>Inventory: what your wallet really holds</li>
           <li>Agent pages: wallet, activity, rules</li><li>Fund, withdraw and swap for agents you own, signed by you</li></ul></div>
         <div class="col no"><h3>NOT YET</h3><ul>
           <li>Minting on nfa</li><li>Agents that trade on their own</li></ul></div>
@@ -140,6 +174,8 @@
   <section class="band" id="faq">
     <div class="wrap2 faq">
       <div class="head2 rv"><span class="k">FAQ</span><h2>Questions.</h2></div>
+      <details><summary>What can my agent build?</summary><div class="a">One-page web products: a website, a tool, a game or a document. It writes a single HTML file that you can preview, revise, open full screen and download. It's AI-made, so check anything important before you rely on it.</div></details>
+      <details><summary>Is the work free?</summary><div class="a">Right now, yes, with a limit per visitor. Your products are kept in this browser only.</div></details>
       <details><summary>Is mint live?</summary><div class="a">Not yet. When it opens, the mint button on this page turns on. Until then you can build your agent; the draft stays saved in this browser.</div></details>
       <details><summary>What does minting cost?</summary><div class="a">No nfa fee. You pay Solana's rent for the NFT and its registry entry (about 0.006 SOL) and the network fee. The mint tab shows the exact number from a dry run before you sign.</div></details>
       <details><summary>Can the agent spend my money?</summary><div class="a">No. Its wallet is separate from yours, and nothing leaves it unless the NFT's owner signs. You decide what goes in.</div></details>
